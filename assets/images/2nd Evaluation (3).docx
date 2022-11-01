@@ -1,0 +1,157 @@
+import React, { createContext, useContext, useState } from 'react';
+import {
+    StyleSheet,
+    TouchableOpacity,
+    View,
+    Text,
+    Alert
+} from 'react-native';
+import {colorTable} from '../style/colorTable';
+import { useNavigation } from "@react-navigation/core";
+import { StackActions } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
+import NotificationModal from '../components/NotificationModal';
+
+
+
+const BottomTabBar = (props:any,{notification}) => {
+    const {state, descriptors, navigation} = props;
+
+    const navigationProps = useNavigation();
+    const  UserContext = createContext(false);
+
+    const [showModal,setModal]=useState(true);
+    let showNotificationModal=state?.routes?.[state.index]['params']?.['modal']
+    return (
+        
+        <View style={styles.container}>
+            {state.routes.map((route:any, index:any) => {
+
+                console.log("index=="+index);
+                const {options} = descriptors[route.key];
+                const label =
+                    options.tabBarLabel !== undefined
+                        ? options.tabBarLabel
+                        : options.title !== undefined
+                        ? options.title
+                        : route.name;
+
+                const Icon =
+                    options.tabBarIcon !== undefined
+                        ? options.tabBarIcon
+                        : () => <></>;
+
+              
+                const isFocused = state.index === index;
+
+
+               console.log(state.index+"==="+index); 
+               
+            //    alert(state.index);
+
+                if(state.index==0){
+                    // navigation.reset({
+                    //     index: 0,
+                    //     routes: [{name: 'Tabs'}],
+                    //   });
+                }
+
+                const onPress = () => {
+
+
+                    const event = navigation.emit({
+                        type: 'tabPress',
+                        target: route.key,
+                        canPreventDefault: true,
+                    });
+
+                    if (!isFocused && !event.defaultPrevented) {
+                        // navigation.navigate(route.name);
+                        // navigation.dispatch(StackActions.popToTop());
+
+                        // navigation.reset({
+                        //     index: 1,
+                        //     routes: [{name: route.name}],
+                        // });
+
+                        navigation.dispatch(
+                            CommonActions.reset({
+                                index: 0,
+                                routes: [{ name: route.name }]
+                            })
+                        );
+
+                    }
+                };
+
+                const onLongPress = () => {
+                    navigation.emit({
+                        type: 'tabLongPress',
+                        target: route.key,
+                    });
+                };
+
+                return (
+                    <TouchableOpacity
+                        accessibilityRole="button"
+                        style={[styles.tabWrapper,{ backgroundColor: isFocused? colorTable.darkBlue : '#2b1c8e' }]}
+                        // style={[styles.tabWrapper,{ backgroundColor:colorTable.darkBlue}]}
+
+
+                        accessibilityState={ route.name=='Switching Program'? { selected: true } : {selected: false}}
+                        accessibilityLabel={options.tabBarAccessibilityLabel}
+                        testID={options.tabBarTestID}
+                        onPress={onPress}
+                        onLongPress={onLongPress}
+                        // style={styles.tabWrapper}
+                        key={index}>
+                        
+
+                            <NotificationModal 
+                                isVisible={showNotificationModal}
+                                onClose={()=>{
+                                    props.navigation.setParams({modal:false});
+                                }}
+                            />
+
+                            <View style={[isFocused?{opacity:1}:{opacity:0.5} ]}>    
+                                <Icon />
+
+                                
+                            </View>
+                        
+                    </TouchableOpacity>
+                );
+            })}
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        // backgroundColor: colorTable.backgroundPrimary,
+        height: 67,
+        // borderTopWidth: 1,
+        // padding:10
+    },
+    tabWrapper: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        // activeOpacity:0.3
+        // opacity:0.1
+        // borderTopWidth:3,
+        // borderTopColor:'transparent'
+    },
+    tabText: {
+        opacity: 0.5,
+        marginTop: 10,
+        color: '#000000',
+    },
+    tabTextIsFocused: {
+        opacity: 1,
+    }
+});
+
+export default BottomTabBar;

@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:qdt="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2" xmlns:udt="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2">
+	<ext:UBLExtensions>
+		<ext:UBLExtension>
+			<ext:ExtensionContent>
+				<ds:Signature Id="SignatureSP">
+					<ds:SignedInfo>
+						<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+						<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+						<ds:Reference URI="">
+							<ds:Transforms>
+								<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+							</ds:Transforms>
+							<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+							<ds:DigestValue>Yhn0J7krZ+H/twjHSp/KH5mmwPM=</ds:DigestValue>
+						</ds:Reference>
+					</ds:SignedInfo>
+				<ds:SignatureValue>lrEbcawNiQZ6a5WSXqV9z//0266CSqctrmOEv6erk+I9b0IdsLEaccXr09CTlIOf
+6eNkQhpnDGvRr+mXVBdY8bqTwcnvnFPns2O0Uuxqw1lxdpFJ0CFlrEhvwPRQcL7+
+076/I1GlBdtWyaYRJOdPBiF/IEwlSdUdCHMTLUoHVtSEzl9JBpnLzNBYK+3bOgcl
+0ZQOuGttn29NYMKbtMxoeBviy58P3vOq3DFl2Yn5ngyaEZ5DA38RO0jD/dLMMw3u
+2folc27w0zxTo8+CRgZw0k9VHRs3/ekJt9TNxEaY2ZiFMhyyKpx65OFFyCOp+8nf
+lK8ESCYxWYvwwxgD1mOnaA==</ds:SignatureValue>
+					<ds:KeyInfo>
+						<ds:X509Data>
+							<ds:X509SubjectName>C=PE,L=PUNO,O=ARMAR PROYECTOS S.A.C.,OU=Validated by Llama.pe ER,OU=FACTURA ELECTRONICA RUC: 20602542808,serialNumber=29593910,CN=MALDONADO ESCOBEDO ARTURO,emailAddress=contacto@conflux.pe,street=JR. 9 DE DICIEMBRE NRO. 309</ds:X509SubjectName>
+							<ds:X509Certificate>MIIFajCCBFKgAwIBAgIIQu9Kfyxt2eowDQYJKoZIhvcNAQELBQAwRjEkMCIGA1UE
+AwwbTGxhbWEucGUgU0hBMjU2IFN0YW5kYXJkIENBMREwDwYDVQQKDAhMTEFNQS5Q
+RTELMAkGA1UEBhMCUEUwHhcNMjEwMjIyMTYzMDQxWhcNMjMwMjIyMTYzMDAwWjCC
+ARAxJDAiBgNVBAkMG0pSLiA5IERFIERJQ0lFTUJSRSBOUk8uIDMwOTEiMCAGCSqG
+SIb3DQEJARYTY29udGFjdG9AY29uZmx1eC5wZTEiMCAGA1UEAwwZTUFMRE9OQURP
+IEVTQ09CRURPIEFSVFVSTzERMA8GA1UEBRMIMjk1OTM5MTAxLTArBgNVBAsMJEZB
+Q1RVUkEgRUxFQ1RST05JQ0EgUlVDOiAyMDYwMjU0MjgwODEhMB8GA1UECwwYVmFs
+aWRhdGVkIGJ5IExsYW1hLnBlIEVSMR8wHQYDVQQKDBZBUk1BUiBQUk9ZRUNUT1Mg
+Uy5BLkMuMQ0wCwYDVQQHDARQVU5PMQswCQYDVQQGEwJQRTCCASIwDQYJKoZIhvcN
+AQEBBQADggEPADCCAQoCggEBAK7K67d4LYzwSF38sPJpqPKFkbvbfhtb6uHNmG5D
+xfsLERN6F7DTH4V4hhKzEHDB8FyqYYZJu8Z+8GuE3UndklcxVywBNV+MbHFB8Dvl
+fNjuDp5yClzPEzy97L29VqMBY1WRebizcVBbPGnDOgLBaMRqyDEspkobpW149hkZ
+gJV7M/3hxNHwXvYQPuky9Rm+o5ZeW063OjMc4hHu6wdx2D2tZzY1ZrjxmgYFPm5B
+ypDCBN1ZqFw4QbLa9lpCmH+LHq7Vlods3dHm/Sc9Fqve0AfyYO4L/BPf439a3tsd
+qr2pod9Vz0U327UTKT5sdrD03q6xKqZZ5tk9qQVxZZOmUy8CAwEAAaOCAY4wggGK
+MAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUXYhbretl+/5oouTZbz1XcqLvK5kw
+ZwYIKwYBBQUHAQEEWzBZMDUGCCsGAQUFBzAChilodHRwOi8vY3J0LmxsYW1hLnBl
+L2xsYW1hcGVzdGFuZGFyZGNhLmNlcjAgBggrBgEFBQcwAYYUaHR0cDovL29jc3Au
+bGxhbWEucGUwHgYDVR0RBBcwFYETY29udGFjdG9AY29uZmx1eC5wZTBGBgNVHSAE
+PzA9MDsGDSsGAQQBg5d3AAEAAgEwKjAoBggrBgEFBQcCARYcaHR0cHM6Ly9sbGFt
+YS5wZS9yZXBvc2l0b3J5LzAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQw
+OgYDVR0fBDMwMTAvoC2gK4YpaHR0cDovL2NybC5sbGFtYS5wZS9sbGFtYXBlc3Rh
+bmRhcmRjYS5jcmwwHQYDVR0OBBYEFKxjj5DkRpNvm8z1XrgYMzxxpWtmMA4GA1Ud
+DwEB/wQEAwIGwDANBgkqhkiG9w0BAQsFAAOCAQEAl92HCIhSAqpkYOL88Q4mIT3j
+Y2MPonfHylP8Z5Wm+RWBrS6oYDcQQ2vPv2pg7LsO7iCUnIm45hrd9MI7IQ0paXrY
+rvfv3ypUjad+TTR50WlToqyG3yalTG5v+ZUJ8HohVnipwnsTztl+XkAUfEO9xk8m
+bwNlvWffXzz5/RkEetXYRnxjHOYdLzGdofYWtfqm/UAy6irJaHyKlRBT7kT6Zrhx
+bbCjgdEKO0n+6HmubZGdTAhyhKY8kLzys8TuSt4vDFaDG3yxLhRzhuhwZ45kqq1H
+IcKzD4wJFOai9q1gbugL/W0V7ds2jdGy+q8BvKCHZ6XQVQyeGpXce2h+/yfXmA==</ds:X509Certificate>
+						</ds:X509Data>
+					</ds:KeyInfo>
+				</ds:Signature>
+			</ext:ExtensionContent>
+		</ext:UBLExtension>
+	</ext:UBLExtensions>
+	<cbc:UBLVersionID>2.1</cbc:UBLVersionID>
+	<cbc:CustomizationID>2.0</cbc:CustomizationID>
+	<cbc:ID>B001-0000068</cbc:ID>
+	<cbc:IssueDate>2021-06-18</cbc:IssueDate>
+	<cbc:IssueTime>19:11:59</cbc:IssueTime>
+	<cbc:InvoiceTypeCode listID="0101" listAgencyName="PE:SUNAT" listName="Tipo de Documento" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01">03</cbc:InvoiceTypeCode>
+	<cbc:Note languageLocaleID="1000">TRESCIENTOS NOVENTA Y DOS  Y 83/100 SOLES</cbc:Note>
+	<cbc:Note>PE-00000000084 2021-06-18 20:50:30 - Divisapp Compra 100.00 USD - Tipo de cambio: 3.9283 - Cliente Envia 100.00 USD - Cliente Recibe 392.83 PEN</cbc:Note>
+	<cbc:DocumentCurrencyCode listAgencyName="United Nations Economic Commission for Europe" listID="ISO 4217 Alpha" listName="Currency">PEN</cbc:DocumentCurrencyCode>
+	<cac:Signature>
+		<cbc:ID>SB001-0000068</cbc:ID>
+		<cbc:ValidatorID>13834262</cbc:ValidatorID>
+		<cac:SignatoryParty>
+			<cac:PartyIdentification>
+				<cbc:ID>20603968671</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyName>
+				<cbc:Name><![CDATA[PERUANA DE CAMBIO DE DIVISAS S.A.C.]]></cbc:Name>
+			</cac:PartyName>
+			<cac:AgentParty>
+				<cac:PartyIdentification>
+					<cbc:ID>20603968671</cbc:ID>
+				</cac:PartyIdentification>
+				<cac:PartyName>
+					<cbc:Name><![CDATA[PERUANA DE CAMBIO DE DIVISAS S.A.C.]]></cbc:Name>
+				</cac:PartyName>
+				<cac:PartyLegalEntity>
+					<cbc:RegistrationName><![CDATA[PERUANA DE CAMBIO DE DIVISAS S.A.C.]]></cbc:RegistrationName>
+				</cac:PartyLegalEntity>
+			</cac:AgentParty>
+		</cac:SignatoryParty>
+		<cac:DigitalSignatureAttachment>
+			<cac:ExternalReference>
+				<cbc:URI>#SignatureSP</cbc:URI>
+			</cac:ExternalReference>
+		</cac:DigitalSignatureAttachment>
+	</cac:Signature>
+	<cac:AccountingSupplierParty>
+		<cac:Party>
+			<cac:PartyIdentification>
+				<cbc:ID schemeID="6" schemeName="Documento de Identidad" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">20603968671</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyName>
+				<cbc:Name><![CDATA[PERUANA DE CAMBIO DE DIVISAS S.A.C.]]></cbc:Name>
+			</cac:PartyName>
+			<cac:PartyLegalEntity>
+				<cbc:RegistrationName><![CDATA[PERUANA DE CAMBIO DE DIVISAS S.A.C.]]></cbc:RegistrationName>
+				<cac:RegistrationAddress>
+					<cbc:AddressTypeCode>0000</cbc:AddressTypeCode>
+				</cac:RegistrationAddress>
+			</cac:PartyLegalEntity>
+		</cac:Party>
+	</cac:AccountingSupplierParty>
+	<cac:AccountingCustomerParty>
+		<cac:Party>
+			<cac:PartyIdentification>
+				<cbc:ID schemeID="1" schemeName="Documento de Identidad" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">42416642</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyLegalEntity>
+				<cbc:RegistrationName><![CDATA[Dan Arnold Perez Robladillo]]></cbc:RegistrationName>
+			</cac:PartyLegalEntity>
+		</cac:Party>
+	</cac:AccountingCustomerParty>
+	<cac:PaymentTerms>
+		<cbc:ID>FormaPago</cbc:ID>
+		<cbc:PaymentMeansID>Contado</cbc:PaymentMeansID>
+	</cac:PaymentTerms>
+	<cac:TaxTotal>
+		<cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+		<cac:TaxSubtotal>
+			<cbc:TaxableAmount currencyID="PEN">392.83</cbc:TaxableAmount>
+			<cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+			<cac:TaxCategory>
+				<cbc:ID schemeID="UN/ECE 5305" schemeName="Tax Category Identifier" schemeAgencyName="PE:SUNAT">O</cbc:ID>
+				<cac:TaxScheme>
+					<cbc:ID schemeID="UN/ECE 5153" schemeAgencyID="6">9998</cbc:ID>
+					<cbc:Name>INA</cbc:Name>
+					<cbc:TaxTypeCode>FRE</cbc:TaxTypeCode>
+				</cac:TaxScheme>
+			</cac:TaxCategory>
+		</cac:TaxSubtotal>
+		</cac:TaxTotal>
+	<cac:LegalMonetaryTotal>
+		<cbc:LineExtensionAmount currencyID="PEN">392.83</cbc:LineExtensionAmount>
+		<cbc:TaxInclusiveAmount currencyID="PEN">392.83</cbc:TaxInclusiveAmount>
+		<cbc:AllowanceTotalAmount currencyID="PEN">0.00</cbc:AllowanceTotalAmount>
+		<cbc:ChargeTotalAmount currencyID="PEN">0.00</cbc:ChargeTotalAmount>
+		<cbc:PayableAmount currencyID="PEN">392.83</cbc:PayableAmount>
+	</cac:LegalMonetaryTotal>
+	<cac:InvoiceLine>
+		<cbc:ID>1</cbc:ID>
+		<cbc:InvoicedQuantity unitCode="ZZ" unitCodeListID="UN/ECE rec 20" unitCodeListAgencyName="United Nations Economic Commission for Europe">1.0000000000</cbc:InvoicedQuantity>
+		<cbc:LineExtensionAmount currencyID="PEN">392.83</cbc:LineExtensionAmount>
+		<cac:PricingReference>
+			<cac:AlternativeConditionPrice>
+				<cbc:PriceAmount currencyID="PEN">392.83</cbc:PriceAmount>
+				<cbc:PriceTypeCode listName="Tipo de Precio" listAgencyName="PE:SUNAT" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo16">01</cbc:PriceTypeCode>
+			</cac:AlternativeConditionPrice>
+			</cac:PricingReference>
+		<cac:TaxTotal>
+			<cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+			<cac:TaxSubtotal>
+				<cbc:TaxableAmount currencyID="PEN">392.83</cbc:TaxableAmount>
+				<cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+				<cac:TaxCategory>
+					<cbc:ID schemeID="UN/ECE 5305" schemeName="Codigo de tributos" schemeAgencyName="PE:SUNAT">O</cbc:ID>
+					<cbc:Percent>18.00</cbc:Percent>
+					<cbc:TaxExemptionReasonCode listAgencyName="PE:SUNAT" listName="Afectacion del IGV" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo07">30</cbc:TaxExemptionReasonCode>
+					<cac:TaxScheme>
+						<cbc:ID schemeID="UN/ECE 5153" schemeName="Codigo de tributos" schemeAgencyName="PE:SUNAT">9998</cbc:ID>
+						<cbc:Name>INA</cbc:Name>
+						<cbc:TaxTypeCode>FRE</cbc:TaxTypeCode>
+					</cac:TaxScheme>
+				</cac:TaxCategory>
+			</cac:TaxSubtotal>
+			</cac:TaxTotal>
+		<cac:Item>
+			<cbc:Description><![CDATA[PE-00000000084 2021-06-18 20:50:30 - Divisapp Compra 100.00 USD - Tipo de cambio: 3.9283 - Cliente Envia 100.00 USD - Cliente Recibe 392.83 PEN]]></cbc:Description>
+			<cac:SellersItemIdentification>
+				<cbc:ID>PECVUSD</cbc:ID>
+			</cac:SellersItemIdentification>
+			</cac:Item>
+		<cac:Price>
+			<cbc:PriceAmount currencyID="PEN">392.8300000000</cbc:PriceAmount>
+		</cac:Price>
+	</cac:InvoiceLine>
+	</Invoice>
