@@ -35,6 +35,7 @@ import ProgressDetail from './screens/operations/progressDetail';
 import FaqPage from './screens/FAQ/faq';
 import { WebView } from 'react-native-webview';
 import ChangePassword from './screens/ChangePassword/ChangePassword';
+import ExchangeRate from './screens/ExchangeRate/ExchangeRate';
 
 // import store from './app/store';
 
@@ -103,7 +104,7 @@ const leftItems = [
     'submenhus':[
     ],
     'rightIcon':false,
-    'path':'faq',
+    'path':'ExchangeRate',
     'checked':false
   },
   {
@@ -567,7 +568,9 @@ const App =  ({props}) => {
                          >
                         {(userInfo && userInfo?.id) ? (
                         <>
+
                          
+
                           <HomeStack.Screen name=" " component={ Tabs } options={{
                                       headerShown:true
                                       // headerShown:!hideHeader?true:false,
@@ -653,6 +656,12 @@ const App =  ({props}) => {
                                         headerTitle:''
                             }} 
               />
+
+              <HomeStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
+                          headerShown:false,
+                          headerTitle:''
+              }} />
+
               <HomeStack.Screen name="Web" component={ WebPage } 
                         options={{
                                     headerShown:false,
@@ -716,6 +725,10 @@ const App =  ({props}) => {
             <OperationStack.Screen name="Operaciones" component={ Operations } 
                           options={{
                                       headerShown:false
+            }} />
+            <OperationStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
+                          headerShown:false,
+                          headerTitle:''
             }} />
 
             <OperationStack.Screen name="Web" component={ WebPage } 
@@ -783,6 +796,10 @@ const App =  ({props}) => {
                                           headerTitle:''
                               }} 
                 />
+                <ProfileStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
+                          headerShown:false,
+                          headerTitle:''
+                }} />
                 <ProfileStack.Screen name="Web" component={ WebPage } 
                             options={{
                                         headerShown:false,
@@ -837,6 +854,11 @@ const App =  ({props}) => {
       return(
         <GraphStack.Navigator>
               
+              
+              <GraphStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
+                        headerShown:false,
+                        headerTitle:''
+              }} />
               <GraphStack.Screen name="Profile" component={ Profile } 
                             options={{
                                         headerShown:false,
@@ -901,6 +923,10 @@ const App =  ({props}) => {
                                         headerTitle:''
                             }} 
               />
+              <WebPageStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
+                          headerShown:false,
+                          headerTitle:''
+              }} />
 
               <WebPageStack.Screen name="ChangePass" component={ ChangePassword } 
                             options={{

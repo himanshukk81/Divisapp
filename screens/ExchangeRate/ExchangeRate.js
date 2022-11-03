@@ -658,7 +658,7 @@ const ExchangeRate = (props) => {
                     />
                 </View>
                 <View style={styles.container}>
-                    {scatterData.data && <ScatterChart
+                    {/* {scatterData.data && <ScatterChart
                         style={styles.chart}
                         data={scatterData.data}
                         legend={scatterData.legend}
@@ -672,7 +672,7 @@ const ExchangeRate = (props) => {
                         chartDescription={{ text: '' }}
                         // onSelect={this.handleSelect.bind(this)}
                         // onChange={(event) => console.log(event.nativeEvent)}
-                    />}
+                    />} */}
                     
                 </View>
             </View>
