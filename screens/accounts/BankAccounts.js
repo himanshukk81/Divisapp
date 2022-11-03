@@ -308,13 +308,6 @@ class BankAccounts extends Component {
             <SafeAreaView style={{}}>
                 <StatusBar translucent={false} backgroundColor={Colors.primaryColor} />
 
-                {/* <ModalComponent forceModal={this.state.isVisible} setForceModal={()=>{
-                    this.setState({isVisible:!this.state.isVisible})
-                }}
-                navigateTerms={()=>{
-                    this.props.navigation.navigate('Terms');
-                }}
-                 /> */}
 
                 <RemoveModal 
                     title={'Eliminar Cuenta Bancaria'}
@@ -341,7 +334,7 @@ class BankAccounts extends Component {
                         onPress={()=>{
                                        
                             
-                            this.props.navigation.navigate('                       ');
+                            this.props.navigation.navigate('BankAccount');
                         }}>
                         <View style={[{backgroundColor:Color.green},styles.account1Btn]}>       
                             <Image
@@ -355,7 +348,7 @@ class BankAccounts extends Component {
                     <TouchableOpacity 
                         disabled={false} 
                         onPress={()=>{
-                            this.props.navigation.navigate('             ');
+                            this.props.navigation.navigate('Accounts');
                         }}>
                         <View style={[{backgroundColor:Color.btnBlue},styles.account2Btn]}>
                             <Image

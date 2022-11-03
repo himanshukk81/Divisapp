@@ -14,8 +14,6 @@ import BottomTabBar from './navigation/BottomTabBar';
 
 import Constant from './utility/Constant';
 
-import { Provider } from 'react-redux';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
@@ -37,12 +35,22 @@ import Operations from './screens/operations/Operations';
 import ProgressDetail from './screens/operations/progressDetail';
 import FaqPage from './screens/FAQ/faq';
 import { WebView } from 'react-native-webview';
+import ChangePassword from './screens/ChangePassword/ChangePassword';
 
 // import store from './app/store';
 
 const Drawer = createDrawerNavigator();
 
 const HomeStack = createNativeStackNavigator();
+
+const OperationStack = createNativeStackNavigator();
+
+const ProfileStack = createNativeStackNavigator();
+
+const GraphStack = createNativeStackNavigator();
+
+const WebPageStack = createNativeStackNavigator();
+
 
 const Tab = createBottomTabNavigator();
 
@@ -55,7 +63,9 @@ const leftItems = [
     'name':'Cambiar Dolares',
     'icon':require('./assets/images/sideIcon/dollar.png'),
     'rightIcon':false,
-    'path':'Cambiar',
+    'path':'HomeS',
+    'checked':false,
+    'submenhus':[]
   },
   {
     'id':2,
@@ -63,6 +73,8 @@ const leftItems = [
     'icon':require('./assets/images/sideIcon/operation.png'),
     'rightIcon':false,  
     'path':'Operaciones',
+    'checked':false,
+    'submenhus':[]
   },
   {
     'id':3,
@@ -72,17 +84,18 @@ const leftItems = [
       {
         'name':'Cuentas Bancarias',
         'icon':require('./assets/images/sideIcon/bank.png'),
-        'path':'    '
+        'path':'BankAccounts'
       },
       {
         'name':'Tarjetas de Credito',
         'icon':require('./assets/images/sideIcon/credit-card.png'),
-        'path':'             '
+        'path':'Accounts'
       }
     ],
     'isActive':false,
     'rightIcon':true,
-    'path':'faq',
+    'path':'',
+    'checked':false
   },
   {
     'id':4,
@@ -92,6 +105,7 @@ const leftItems = [
     ],
     'rightIcon':false,
     'path':'faq',
+    'checked':false
   },
   {
     'id':5,
@@ -106,11 +120,12 @@ const leftItems = [
       {
         'name':'Cambiar contraseña',
         'icon':require('./assets/images/sideIcon/key.png'),
-        'path':'profile'
+        'path':'ChangePass'
       }
     ],
     'rightIcon':true,
     'path':'',
+    'checked':false
   },
   {
     'id':6,
@@ -120,7 +135,8 @@ const leftItems = [
      
     ],
     'path':'faq',
-    'rightIcon':false
+    'rightIcon':false,
+    'checked':false
   },
   {
     'id':7,
@@ -145,6 +161,7 @@ const leftItems = [
     ],
     'rightIcon':false,
     'path':'',
+    'checked':false
   },
   {
     'id':7,
@@ -169,6 +186,10 @@ const App =  ({props}) => {
     const navigationRef = createNavigationContainerRef();
     const [webUrl, setWebUrl] = useState('');
 
+    // const [leftItemsItem , setLeftItems] = useState(leftItems);
+
+    const [refreshTime , setRefresh] = useState(new Date());
+
     useEffect(()=>{
       fetchData();
     },[]);
@@ -177,13 +198,11 @@ const App =  ({props}) => {
       return(
         <TouchableOpacity onPress={()=>{
           if(item.path.includes('http')){
-            // setWebUrl(item.path)
-            propsDrawer.navigation.navigate('Ayuda',{'path':item.path});
+            propsDrawer.navigation.navigate('Web',{'path':item.path});
           }
           else{
             propsDrawer.navigation.navigate(item.path);
           }
-          // propsDrawer.navigation.navigate(item.path);
          }}>
           <View style={{flexDirection:'row',alignItems:'center',marginLeft:10,marginVertical:5  }}>
             
@@ -199,18 +218,24 @@ const App =  ({props}) => {
         </TouchableOpacity>
       )
     }  
-    const renderItem = ({ item,navigation},props) => {
+    const renderItem = ({ item,index},props) => {
       return(
         <TouchableOpacity onPress={()=>{
-            if(item.path){
-              // navigation.navigate(item.path);
-              if(item.path =='logout'){
-                confirmationAlert(props);
-              }
-              else{
-                propsDrawer.navigation.navigate(item.path);
+            if(item.submenhus && item.submenhus.length == 0){
+              console.log("Pathss:::",item.path);
+              if(item.path){
+                if(item.path =='logout'){
+                  confirmationAlert(props);
+                }
+                else{
+                  propsDrawer.navigation.navigate(item.path);
+                }
               }
             }
+            else{
+              item.checked = !item.checked;
+            }
+
          }}>
           <View style={{paddingVertical:8,flexDirection:'row',alignItems:'center'  }}>
             
@@ -219,12 +244,12 @@ const App =  ({props}) => {
                   resizeMode="contain"
               />
               <Text style={{color:'#444',fontWeight:'bold',textAlign:'left'}}>
-                {item.name}
+                {item.name} {item.checked}
               </Text>
     
           </View>
           <View>
-              {item.submenhus && <FlatList
+              {(item.submenhus) && <FlatList
                     data={item.submenhus}
                     renderItem={(item) => renderSubmenu(item, props)}
                     keyExtractor={item => item.name}
@@ -288,7 +313,9 @@ const App =  ({props}) => {
                         </TouchableOpacity>
                     </MenuOption>
                     <MenuOption onSelect={() => {
-                        
+                          props.navigation.navigate('ChangePass');
+                          _menu.close();
+      
                       }}>
                         <View style={styles.menuProfile}>
                           <Text style={{color:'#444'}}>Cambiar Contrasena</Text>
@@ -384,12 +411,6 @@ const App =  ({props}) => {
                       />
                     </View>
 
-                    {/* <View style={{backgroundColor:'#D9E4EC',paddingLeft:30, paddingVertical:30,marginHorizontal:-15,marginTop:30 } }>
-                          <Text style={styles.label}>Lima</Text>
-                          <Text style={[styles.label,{fontWeight:'bold',fontSize:18,marginVertical:6}]}>{moment(currentDate).format('LT')}</Text>
-                          <Text style={styles.label}>{moment(currentDate).format('LL')}</Text>
-                    </View> */}
-
                   </View>
 
             </DrawerContentScrollView>
@@ -424,7 +445,7 @@ const App =  ({props}) => {
               >
               <Tab.Screen
                   name="profile"
-                  component={Profile}
+                  component={ProfileStacks}
                   options={{     
                     tabBarLabel: 'Cuentas',
                     tabBarIconPath:require('./assets/images/bottomIcon/accounts.png'),
@@ -435,8 +456,7 @@ const App =  ({props}) => {
               />
               <Tab.Screen
                   name="Operaciones"
-                  component={Operations}
-                  // component={ProgressDetail}
+                  component={OperationStacks}
                   options={{
                     tabBarLabel: 'Operaciones',
                     tabBarIconPath:require('./assets/images/bottomIcon/operation.png'),
@@ -448,7 +468,7 @@ const App =  ({props}) => {
 
               <Tab.Screen
                   name="Cambiar"
-                  component={HomeScreen}
+                  component={HomeStacks}
                   options={{
                     tabBarLabel: 'Cambiar',
                     tabBarIconPath:require('./assets/images/bottomIcon/dollar.png'),
@@ -460,7 +480,7 @@ const App =  ({props}) => {
 
               <Tab.Screen
                   name="T. Cambio"
-                  component={Profile}
+                  component={GraphStacks}
                   options={{
                     tabBarLabel: 'T. Cambio',
                     tabBarIconPath:require('./assets/images/bottomIcon/statistic.png'),
@@ -472,7 +492,7 @@ const App =  ({props}) => {
 
               <Tab.Screen
                   name="Ayuda"
-                  component={WebPage}
+                  component={WebPageStacks}
                   options={{
                     tabBarLabel: 'Ayuda',
                     tabBarIconPath:require('./assets/images/bottomIcon/help.png'),
@@ -487,8 +507,8 @@ const App =  ({props}) => {
     const DrawerNavigator = (props) => {
 
         return (
-        <Drawer.Navigator initialRouteName="HomeScreen" 
-            
+        <Drawer.Navigator 
+                initialRouteName="HomeScreen" 
                 screenOptions={{
                     swipeEdgeWidth: 0,  
                     drawerPosition:"left",
@@ -508,7 +528,6 @@ const App =  ({props}) => {
     }
     const RootStack = (props2) =>{
 
-        if(true)
         return(
             <HomeStack.Navigator
                             screenOptions={{
@@ -549,18 +568,16 @@ const App =  ({props}) => {
                          >
                         {(userInfo && userInfo?.id) ? (
                         <>
+                         
                           <HomeStack.Screen name=" " component={ Tabs } options={{
                                       headerShown:true
                                       // headerShown:!hideHeader?true:false,
                           }} />
-                          <HomeStack.Screen name="faq" component={ FaqPage }
-                            
-                            options={{
-                                        headerShown:true,
-                                        headerBackVisible:false,
-                                        headerBackTitleVisible: false,  
-                            }} 
-                          />
+                           {/* <HomeStack.Screen name="ChangePass" component={ ChangePassword } 
+                                        options={{
+                                                    headerShown:false
+                          }} /> */}
+                          
                           <HomeStack.Screen name="    " component={ BankAccounts }
                             
                             options={{
@@ -592,17 +609,19 @@ const App =  ({props}) => {
                                         headerShown:false,
                                         headerTitle:''
                             }} />
-                           <HomeStack.Screen name="                                 " component={ ProgressDetail } options={{
-                                         headerShown:true,
-                                        //  headerBackVisible:true,
-                                        //  headerBackTitleVisible: false,  
-                                         headerTitle:null
-                            }} />
+                           
+                          <HomeStack.Screen name="                                 " component={ ProgressDetail } options={{
+                                        headerShown:true,
+                                      //  headerBackVisible:true,
+                                      //  headerBackTitleVisible: false,  
+                                        headerTitle:null
+                          }} />
                             
                           <HomeStack.Screen name="Login" component={ Signin2 } options={{
                                         headerShown:false,
                                         headerTitle:''
-                            }} />
+                          }} />
+
                         </>
                         ) : (
                           <>
@@ -626,8 +645,307 @@ const App =  ({props}) => {
         )
     }
 
+    const HomeStacks = () =>{
+        return (
+          <HomeStack.Navigator>
+              <HomeStack.Screen name="HomeS" component={ HomeScreen } 
+                            options={{
+                                        headerShown:false,
+                                        headerTitle:''
+                            }} 
+              />
+              <HomeStack.Screen name="Web" component={ WebPage } 
+                        options={{
+                                    headerShown:false,
+                                    headerTitle:''
+                        }} 
+              />
+              <HomeStack.Screen name="ChangePass" component={ ChangePassword } 
+                            options={{
+                                        headerShown:false,
+                                        headerTitle:''
+                            }} 
+              />
+              <HomeStack.Screen name="Operaciones" component={ Operations } 
+                          options={{
+                                      headerShown:false
+              }} />
 
+              <HomeStack.Screen name="faq" component={ FaqPage } 
+                options={{
+                            headerShown:false,
+                            headerTitle:''
+                }} 
+              />
+
+              <HomeStack.Screen name="BankAccounts" component={ BankAccounts }
+                
+                options={{
+                            headerShown:false,
+                            headerTitle:'' 
+                }} 
+              />
+
+              <HomeStack.Screen name="BankAccount" component={ BankAccount } options={{
+                          headerShown:false,
+                          headerTitle:''  
+              }} />
+
+              <HomeStack.Screen name="Accounts" component={ Accounts } options={{
+                          headerShown:false,
+                          headerTitle:''  
+              }} />
+
+              
+              <HomeStack.Screen name="CreditCard" component={ CreditCard } options={{
+                          headerShown:false,
+                          headerTitle:'' 
+              }} />
+            
+              
+              <HomeStack.Screen name="Terms" component={ TermsPage } options={{
+                            headerShown:false,
+                            headerTitle:''
+              }} />
+
+          </HomeStack.Navigator>
+        )
+    }
+    const OperationStacks = () =>{
+      return(
+        <OperationStack.Navigator>
+            <OperationStack.Screen name="Operaciones" component={ Operations } 
+                          options={{
+                                      headerShown:false
+            }} />
+
+            <OperationStack.Screen name="Web" component={ WebPage } 
+                        options={{
+                                    headerShown:false,
+                                    headerTitle:''
+                        }} 
+            />
+            <OperationStack.Screen name="ChangePass" component={ ChangePassword } 
+                          options={{
+                                      headerShown:false
+            }} />
+            <OperationStack.Screen name="ProgressDetail" component={ ProgressDetail } 
+                          options={{
+                                      headerShown:true,
+                                      headerTitle:''
+            }} />
+
+            <OperationStack.Screen name="faq" component={ FaqPage } 
+              options={{
+                          headerShown:false,
+                          headerTitle:''
+              }} 
+            />
+            <OperationStack.Screen name="BankAccounts" component={ BankAccounts }
+              
+              options={{
+                          headerShown:false,
+                          headerTitle:'' 
+              }} 
+            />
+
+            <OperationStack.Screen name="BankAccount" component={ BankAccount } options={{
+                        headerShown:false,
+                        headerTitle:''  
+            }} />
+            <OperationStack.Screen name="Accounts" component={ Accounts } options={{
+                        headerShown:false,
+                        headerTitle:''  
+            }} />
+
+            
+            <OperationStack.Screen name="CreditCard" component={ CreditCard } options={{
+                        headerShown:false,
+                        headerTitle:'' 
+            }} />
+          
+            
+            <OperationStack.Screen name="Terms" component={ TermsPage } options={{
+                          headerShown:false,
+                          headerTitle:''
+            }} />
+
+        </OperationStack.Navigator>
+      )
+    }
     
+    const ProfileStacks = () =>{
+        return(
+          <ProfileStack.Navigator>
+                
+                <ProfileStack.Screen name="Profile" component={ Profile } 
+                              options={{
+                                          headerShown:false,
+                                          headerTitle:''
+                              }} 
+                />
+                <ProfileStack.Screen name="Web" component={ WebPage } 
+                            options={{
+                                        headerShown:false,
+                                        headerTitle:''
+                            }} 
+                />
+                <ProfileStack.Screen name="ChangePass" component={ ChangePassword } 
+                          options={{
+                                      headerShown:false
+                }} />
+
+                <ProfileStack.Screen name="faq" component={ FaqPage } 
+                  options={{
+                              headerShown:false,
+                              headerTitle:''
+                  }} 
+                />
+                <ProfileStack.Screen name="BankAccounts" component={ BankAccounts }
+                  
+                  options={{
+                              headerShown:false,
+                              headerTitle:'' 
+                  }} 
+                />
+                <ProfileStack.Screen name="BankAccount" component={ BankAccount } options={{
+                            headerShown:false,
+                            headerTitle:''  
+                }} />
+                <ProfileStack.Screen name="Accounts" component={ Accounts } options={{
+                            headerShown:false,
+                            headerTitle:''  
+                }} />
+
+                
+                <ProfileStack.Screen name="CreditCard" component={ CreditCard } options={{
+                            headerShown:false,
+                            headerTitle:'' 
+                }} />
+              
+                
+                <ProfileStack.Screen name="Terms" component={ TermsPage } options={{
+                              headerShown:false,
+                              headerTitle:''
+                }} />
+          
+           </ProfileStack.Navigator>
+        )
+       
+    }
+
+    const GraphStacks = () =>{
+      return(
+        <GraphStack.Navigator>
+              
+              <GraphStack.Screen name="Profile" component={ Profile } 
+                            options={{
+                                        headerShown:false,
+                                        headerTitle:''
+                            }} 
+              />
+              <GraphStack.Screen name="Web" component={ WebPage } 
+                            options={{
+                                        headerShown:false,
+                                        headerTitle:''
+                            }} 
+              />
+              <GraphStack.Screen name="ChangePass" component={ ChangePassword } 
+                          options={{
+                                      headerShown:false
+              }} />
+              <GraphStack.Screen name="faq" component={ FaqPage } 
+                options={{
+                            headerShown:false,
+                            headerTitle:''
+                }} 
+              />
+              <GraphStack.Screen name="BankAccounts" component={ BankAccounts }
+                
+                options={{
+                            headerShown:false,
+                            headerTitle:'' 
+                }} 
+              />
+              <GraphStack.Screen name="BankAccount" component={ BankAccount } options={{
+                          headerShown:false,
+                          headerTitle:''  
+              }} />
+              <GraphStack.Screen name="Accounts" component={ Accounts } options={{
+                          headerShown:false,
+                          headerTitle:''  
+              }} />
+
+              
+              <GraphStack.Screen name="CreditCard" component={ CreditCard } options={{
+                          headerShown:false,
+                          headerTitle:'' 
+              }} />
+            
+              
+              <GraphStack.Screen name="Terms" component={ TermsPage } options={{
+                            headerShown:false,
+                            headerTitle:''
+              }} />
+        
+         </GraphStack.Navigator>
+      )
+    }
+
+    const WebPageStacks = () =>{
+      return(
+        <WebPageStack.Navigator>
+              
+              <WebPageStack.Screen name="Web" component={ WebPage } 
+                            options={{
+                                        headerShown:false,
+                                        headerTitle:''
+                            }} 
+              />
+
+              <WebPageStack.Screen name="ChangePass" component={ ChangePassword } 
+                            options={{
+                                        headerShown:false,
+                                        headerTitle:''
+                            }} 
+              />
+              <WebPageStack.Screen name="faq" component={ FaqPage } 
+                options={{
+                            headerShown:false,
+                            headerTitle:''
+                }} 
+              />
+              <WebPageStack.Screen name="BankAccounts" component={ BankAccounts }
+                
+                options={{
+                            headerShown:false,
+                            headerTitle:'' 
+                }} 
+              />
+              <WebPageStack.Screen name="BankAccount" component={ BankAccount } options={{
+                          headerShown:false,
+                          headerTitle:''  
+              }} />
+              <WebPageStack.Screen name="Accounts" component={ Accounts } options={{
+                          headerShown:false,
+                          headerTitle:''  
+              }} />
+
+              
+              <WebPageStack.Screen name="CreditCard" component={ CreditCard } options={{
+                          headerShown:false,
+                          headerTitle:'' 
+              }} />
+            
+              
+              <WebPageStack.Screen name="Terms" component={ TermsPage } options={{
+                            headerShown:false,
+                            headerTitle:''
+              }} />
+        
+         </WebPageStack.Navigator>
+      )
+    }
     return (
             <SafeAreaProvider>
                     {(splash) ?

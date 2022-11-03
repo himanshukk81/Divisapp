@@ -27,9 +27,10 @@ const WebPage =(props,{navigation}) =>{
         }        
     },[]);
     useFocusEffect(()=>{
-        console.log("isFocussedddd::")
-        if(props?.route?.params.path){
-            setWebUrl(props?.route?.params.path);
+        console.log("isFocussedddd::");
+        console.log({propsData:props?.route})
+        if(props && props?.route?.params?.path){
+            setWebUrl(props?.route?.params?.path);
         }
     });
     return (

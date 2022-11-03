@@ -181,7 +181,7 @@ class Accounts extends Component {
                     <TouchableOpacity 
                         disabled={false} 
                         onPress={()=>{
-                            this.props.navigation.navigate('           ');
+                            this.props.navigation.navigate('CreditCard');
                         }}>
                         <View style={[{backgroundColor:Color.green},styles.account1Btn]}>       
                             <Image
@@ -195,7 +195,7 @@ class Accounts extends Component {
                     <TouchableOpacity 
                         disabled={false} 
                         onPress={()=>{
-                            this.props.navigation.navigate('    ');
+                            this.props.navigation.navigate('BankAccounts');
                         }}>
                         <View style={[{backgroundColor:Color.btnBlue},styles.account2Btn]}>
                             <Image
@@ -411,3 +411,5 @@ const styles = StyleSheet.create({
 })
 
 export default withNavigation(Accounts);
+
+// export default Accounts;
