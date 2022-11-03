@@ -7,7 +7,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Signin2 from './screens/auth/signinScreen';
 import Profile from './screens/profile/Profile';
 import { MenuProvider } from 'react-native-popup-menu';
-
 import { createDrawerNavigator , DrawerContentScrollView ,DrawerItem} from '@react-navigation/drawer';
 
 import BottomTabBar from './navigation/BottomTabBar';
