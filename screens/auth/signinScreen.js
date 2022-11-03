@@ -214,8 +214,6 @@ const Signin2 =(props) =>{
         const response = await fetch(url, options);
         const jsonResposne = await response.json();
 
-        console.log({jsonResposnejsonResposne:jsonResposne});
-
         if(jsonResposne.display_message){
             showToast(jsonResposne.display_message);
             return;
@@ -375,6 +373,7 @@ const Signin2 =(props) =>{
             LoginManager.logInWithPermissions(['public_profile','email']).then(
                 login => {
 
+                    
                   if (login.isCancelled) {
                     console.log('Login cancelled');
                   } else {
