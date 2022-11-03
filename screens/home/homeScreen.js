@@ -97,11 +97,6 @@ class HomeScreen extends Component {
         getProfileInfo().then((response)=>{
             let profiles = [];
             console.log({response2:response});
-
-
-            if(response?.created_by?.status == 0){
-                this.props.navigation.navigate('profile');
-            }
             let profileInfo = response.data;
             let statistics = this.state.staticsImgs;
             let prefix ='';
