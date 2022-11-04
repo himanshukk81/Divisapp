@@ -213,3 +213,8 @@ export async function updatePass(parms) {
   console.log({parms:parms});
   return callApi(Constants.API_URL + 'password_update',parms, 'POST');
 }
+
+export async function getRates() {
+  console.log('----------Get Rates------------------');
+  return callApi(Constants.API_URL + 'rates',{}, 'GET');
+}

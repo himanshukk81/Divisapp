@@ -1,12 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import {
-//     LineChart,
-//     BarChart,
-//     PieChart,
-//     ProgressChart,
-//     ContributionGraph,
-//     StackedBarChart
-// } from "react-native-chart-kit";
 import {
     SafeAreaView,
     View,
@@ -15,670 +7,492 @@ import {
     Image,
     ActivityIndicator,Text,Dimensions,
     ScrollView,
-    StyleSheet,processColor
+    StyleSheet,processColor, useWindowDimensions
 } from "react-native";
 import {LineChart,ScatterChart} from 'react-native-charts-wrapper';
+import Color from "../../utility/Color";
+import { WebView } from 'react-native-webview';
+import Constant from "../../utility/Constant";
+import { getRates } from "../../services/Api";
+
 const ExchangeRate = (props) => {
+    const [scatterData2 , setScatterData] = useState(null);
+    const [lineChartData , setLineChartData] = useState(null);
+    const [isLoading , setLoading] = useState(true);
+    const [graphData , setGraphData] = useState(null);
 
-
-
-    // const graphData = {"labels":[1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],"datasets":[{"color":()=>"#05f70d","data":[4.14138,4.14516,null,4.1437100000000004,4.14494,4.11072,4.11081,4.115,null,4.09048,4.07512,4.00986,3.94373,3.94855,3.94832,null,3.96339,3.96032,3.95865,3.96488,3.97813,3.98284,null,3.9878299999999998,4.0075,3.99707,3.99224,4.00453,4.00259,null],"strokeWidth":4},{"color":()=>"#0f20db","data":[4.11843,4.11934,null,4.12179,4.11556,4.07201,4.079,4.08,null,4.05725,4.03477,3.96798,3.90664,3.91759,3.92294,null,3.93843,3.93532,3.93307,3.94214,3.9546,3.95486,null,3.96324,3.98062,3.97139,3.97124,3.98184,3.9772,null],"strokeWidth":4}]}
-    // return (
-    //     <SafeAreaView style={{ flex: 1 }}>
-    //         <StatusBar backgroundColor={'#111'} />
-    //         <View style={{ flexDirection: 'row', alignSelf: 'flex-end', padding: 6 }}>
-    //             {/* <Text>Bezier Line Chart</Text> */}
-    //             <LineChart
-    //                 data={{
-    //                     labels: ["January", "February", "March", "April", "May", "June"],
-    //                     datasets: [
-    //                         {
-    //                             data: [
-    //                                 Math.random() * 100,
-    //                                 Math.random() * 100,
-    //                                 Math.random() * 100,
-    //                                 Math.random() * 100,
-    //                                 Math.random() * 100,
-    //                                 Math.random() * 100
-    //                             ],
-    //                             color: () => '#C7EBFF', strokeWidth: 4 
-    //                         },
-    //                         {
-    //                             data: [
-    //                                 Math.random() * 100,
-    //                                 Math.random() * 100,
-    //                                 Math.random() * 100,
-    //                                 Math.random() * 100,
-    //                                 Math.random() * 100,
-    //                                 Math.random() * 100
-    //                             ],
-    //                             color: () => '#ED7C33', strokeWidth: 4 
-    //                         }
-    //                     ]
-    //                 }}
-    //                 width={Dimensions.get("window").width} // from react-native
-    //                 height={220}
-    //                 yAxisLabel="$"
-    //                 yAxisSuffix="k"
-    //                 yAxisInterval={1} // optional, defaults to 1
-    //                 // withVerticalLines = {true}
-    //                 // withHorizontalLines = {true}
-    //                 // withInnerLines ={false}
-    //                 chartConfig={{
-    //                     backgroundColor: "#ffffff",
-    //                     backgroundGradientFrom: "#ffffff",
-    //                     backgroundGradientTo: "#ffffff",
-    //                     decimalPlaces: 2, // optional, defaults to 2dp
-    //                     color: (opacity = 1) => `rgba(255,255,255, ${opacity})`,
-    //                     labelColor: (opacity = 1) => `rgba(5, 5, 5, ${opacity})`,
-    //                     style: {
-    //                         borderRadius: 16
-    //                     },
-    //                     propsForDots: {
-    //                         r: "6",
-    //                         strokeWidth: "2",
-    //                         stroke: "#ffa726"
-    //                     },
-    //                     propsForBackgroundLines: {
-    //                         strokeDasharray: "", // solid background lines with no dashes
-    //                         stroke: "#949292"
-    //                     }
-                        
-    //                 }}
-    //                 bezier
-    //                 style={{
-    //                     marginVertical: 8,
-    //                     borderRadius: 16
-    //                 }}
-    //             />
-                
-    //         </View>
-    //         <View style={{ flexDirection: 'row', alignSelf: 'flex-end', padding: 6 }}>
-    //             {/* <Text>Bezier Line Chart</Text> */}
-    //             <ScrollView horizontal={true}>
-    //             <LineChart
-    //                 data={
-    //                     graphData
-    //                 }
-    //                 // width={Dimensions.get("window").width} // from react-native
-    //                 width={graphData.labels.length*Dimensions.get("window").width/5} // from react-native
-    //                 height={220}
-    //                 // yAxisLabel="$"
-    //                 // yAxisSuffix="k"
-    //                 yAxisInterval={1} // optional, defaults to 1
-    //                 xAxisInterval={0.05}
-    //                 // withVerticalLines = {true}
-    //                 // withHorizontalLines = {true}
-    //                 // withInnerLines ={false}
-    //                 chartConfig={{
-    //                     backgroundColor: "#ffffff",
-    //                     backgroundGradientFrom: "#ffffff",
-    //                     backgroundGradientTo: "#ffffff",
-    //                     decimalPlaces: 2, // optional, defaults to 2dp
-    //                     color: (opacity = 1) => `rgba(255, 255, 5, ${opacity})`,
-    //                     labelColor: (opacity = 1) => `rgba(5, 5, 5, ${opacity})`,
-    //                     style: {
-    //                         borderRadius: 16
-    //                     },
-    //                     propsForDots: {
-    //                         r: "6",
-    //                         strokeWidth: "2",
-    //                         stroke: "#FFFFF"
-    //                     },
-    //                     propsForBackgroundLines: {
-    //                         strokeDasharray: "", // solid background lines with no dashes
-    //                         stroke: "#949292"
-    //                     }
-                        
-    //                 }}
-    //                 bezier
-    //                 style={{
-    //                     marginVertical: 8,
-    //                     borderRadius: 16
-    //                 }}
-    //             />
-    //             </ScrollView>
-                
-                
-    //         </View>
-    //     </SafeAreaView>
-    // )
-    var response = {
+    let response2 = {
         "today_hour": [
             {
                 "hour": 9,
                 "hour_txt": "09 AM",
-                "rate": 3.98825,
-                "buy_rate": 3.971,
-                "sell_rate": 4.0055
+                "rate": 3.9565,
+                "buy_rate": 3.94075,
+                "sell_rate": 3.97225
             },
             {
                 "hour": 10,
                 "hour_txt": "10 AM",
-                "rate": 3.99037,
-                "buy_rate": 3.98075,
-                "sell_rate": 4
+                "rate": 3.9595000000000002,
+                "buy_rate": 3.95075,
+                "sell_rate": 3.9682500000000003
             },
             {
                 "hour": 11,
                 "hour_txt": "11 AM",
-                "rate": 3.9905,
-                "buy_rate": 3.9825,
-                "sell_rate": 3.9985
+                "rate": 3.9619999999999997,
+                "buy_rate": 3.95275,
+                "sell_rate": 3.97125
             },
             {
                 "hour": 12,
                 "hour_txt": "12 PM",
-                "rate": 3.99213,
-                "buy_rate": 3.98325,
-                "sell_rate": 4.001
+                "rate": 3.96,
+                "buy_rate": 3.951,
+                "sell_rate": 3.969
             }
         ],
         "daily": [
             {
                 "day": 1,
-                "rate": 4.1299,
-                "buy_rate": 4.11843,
-                "sell_rate": 4.14138
+                "rate": 3.99337,
+                "buy_rate": 3.97835,
+                "sell_rate": 4.0084
             },
             {
                 "day": 2,
-                "rate": 4.13225,
-                "buy_rate": 4.11934,
-                "sell_rate": 4.14516
+                "rate": 4.01006,
+                "buy_rate": 3.99901,
+                "sell_rate": 4.0211
             },
             {
                 "day": 3,
-                "rate": null,
-                "buy_rate": null,
-                "sell_rate": null
+                "rate": 4.01226,
+                "buy_rate": 4.002,
+                "sell_rate": 4.02252
             },
             {
                 "day": 4,
-                "rate": 4.13275,
-                "buy_rate": 4.12179,
-                "sell_rate": 4.1437100000000004
-            },
-            {
-                "day": 6,
-                "rate": 4.13025,
-                "buy_rate": 4.11556,
-                "sell_rate": 4.14494
-            },
-            {
-                "day": 7,
-                "rate": 4.09137,
-                "buy_rate": 4.07201,
-                "sell_rate": 4.11072
-            },
-            {
-                "day": 8,
-                "rate": 4.09075,
-                "buy_rate": 4.079,
-                "sell_rate": 4.11081
-            },
-            {
-                "day": 9,
-                "rate": 4.09075,
-                "buy_rate": 4.08,
-                "sell_rate": 4.115
-            },
-            {
-                "day": 10,
-                "rate": null,
-                "buy_rate": null,
-                "sell_rate": null
-            },
-            {
-                "day": 11,
-                "rate": 4.07387,
-                "buy_rate": 4.05725,
-                "sell_rate": 4.09048
-            },
-            {
-                "day": 12,
-                "rate": 4.05494,
-                "buy_rate": 4.03477,
-                "sell_rate": 4.07512
-            },
-            {
-                "day": 13,
-                "rate": 3.9889200000000002,
-                "buy_rate": 3.96798,
-                "sell_rate": 4.00986
-            },
-            {
-                "day": 14,
-                "rate": 3.92518,
-                "buy_rate": 3.90664,
-                "sell_rate": 3.94373
-            },
-            {
-                "day": 15,
-                "rate": 3.93307,
-                "buy_rate": 3.91759,
-                "sell_rate": 3.94855
-            },
-            {
-                "day": 16,
-                "rate": 3.9356299999999997,
-                "buy_rate": 3.92294,
-                "sell_rate": 3.94832
-            },
-            {
-                "day": 17,
-                "rate": null,
-                "buy_rate": null,
-                "sell_rate": null
-            },
-            {
-                "day": 18,
-                "rate": 3.95091,
-                "buy_rate": 3.93843,
-                "sell_rate": 3.96339
-            },
-            {
-                "day": 19,
-                "rate": 3.94782,
-                "buy_rate": 3.93532,
-                "sell_rate": 3.96032
-            },
-            {
-                "day": 20,
-                "rate": 3.94586,
-                "buy_rate": 3.93307,
-                "sell_rate": 3.95865
-            },
-            {
-                "day": 21,
-                "rate": 3.95351,
-                "buy_rate": 3.94214,
-                "sell_rate": 3.96488
-            },
-            {
-                "day": 22,
-                "rate": 3.96637,
-                "buy_rate": 3.9546,
-                "sell_rate": 3.97813
-            },
-            {
-                "day": 23,
-                "rate": 3.9688499999999998,
-                "buy_rate": 3.95486,
-                "sell_rate": 3.98284
-            },
-            {
-                "day": 24,
-                "rate": null,
-                "buy_rate": null,
-                "sell_rate": null
-            },
-            {
-                "day": 25,
-                "rate": 3.97553,
-                "buy_rate": 3.96324,
-                "sell_rate": 3.9878299999999998
-            },
-            {
-                "day": 26,
-                "rate": 3.99406,
-                "buy_rate": 3.98062,
-                "sell_rate": 4.0075
-            },
-            {
-                "day": 27,
-                "rate": 3.98423,
-                "buy_rate": 3.97139,
-                "sell_rate": 3.99707
-            },
-            {
-                "day": 28,
-                "rate": 3.98174,
-                "buy_rate": 3.97124,
-                "sell_rate": 3.99224
-            },
-            {
-                "day": 29,
-                "rate": 3.9931900000000002,
-                "buy_rate": 3.98184,
-                "sell_rate": 4.00453
-            },
-            {
-                "day": 30,
-                "rate": 3.9899,
-                "buy_rate": 3.9772,
-                "sell_rate": 4.00259
-            },
-            {
-                "day": 31,
-                "rate": null,
-                "buy_rate": null,
-                "sell_rate": null
-            },
-            {
-                "day": 1,
-                "rate": 3.97525,
-                "buy_rate": 3.95723,
-                "sell_rate": 3.99327
-            },
-            {
-                "day": 2,
-                "rate": null,
-                "buy_rate": null,
-                "sell_rate": null
-            },
-            {
-                "day": 3,
-                "rate": 3.96172,
-                "buy_rate": 3.94618,
-                "sell_rate": 3.9772499999999997
-            },
-            {
-                "day": 4,
-                "rate": 3.95008,
-                "buy_rate": 3.93491,
-                "sell_rate": 3.96525
+                "rate": 4.01156,
+                "buy_rate": 3.99954,
+                "sell_rate": 4.02358
             },
             {
                 "day": 5,
-                "rate": 3.96399,
-                "buy_rate": 3.94884,
-                "sell_rate": 3.97914
+                "rate": 4.01286,
+                "buy_rate": 4.00184,
+                "sell_rate": 4.02388
             },
             {
                 "day": 6,
-                "rate": 3.97871,
-                "buy_rate": 3.96413,
-                "sell_rate": 3.99329
+                "rate": 4.0085,
+                "buy_rate": 3.9943,
+                "sell_rate": 4.0227
             },
             {
                 "day": 7,
-                "rate": 3.96701,
-                "buy_rate": 3.95223,
-                "sell_rate": 3.98179
+                "rate": null,
+                "buy_rate": null,
+                "sell_rate": null
             },
             {
                 "day": 8,
-                "rate": 3.9583500000000003,
-                "buy_rate": 3.94227,
-                "sell_rate": 3.97444
+                "rate": 4.01465,
+                "buy_rate": 4.00345,
+                "sell_rate": 4.02585
             },
             {
                 "day": 9,
-                "rate": null,
-                "buy_rate": null,
-                "sell_rate": null
+                "rate": 4.01782,
+                "buy_rate": 4.00558,
+                "sell_rate": 4.03029
             },
             {
                 "day": 10,
-                "rate": 3.96259,
-                "buy_rate": 3.94806,
-                "sell_rate": 3.97712
+                "rate": 4.0257,
+                "buy_rate": 4.01333,
+                "sell_rate": 4.03807
             },
             {
                 "day": 11,
-                "rate": 3.97172,
-                "buy_rate": 3.96008,
-                "sell_rate": 3.9833600000000002
+                "rate": 4.01993,
+                "buy_rate": 4.00822,
+                "sell_rate": 4.03165
             },
             {
                 "day": 12,
-                "rate": 3.98149,
-                "buy_rate": 3.9702,
-                "sell_rate": 3.99279
+                "rate": 4.02028,
+                "buy_rate": 4.00625,
+                "sell_rate": 4.0343
             },
             {
                 "day": 13,
-                "rate": 3.98131,
-                "buy_rate": 3.96802,
-                "sell_rate": 3.9946
+                "rate": 4.01982,
+                "buy_rate": 4.00641,
+                "sell_rate": 4.03322
             },
             {
                 "day": 14,
-                "rate": 3.98802,
-                "buy_rate": 3.97637,
-                "sell_rate": 3.99966
+                "rate": null,
+                "buy_rate": null,
+                "sell_rate": null
             },
             {
                 "day": 15,
-                "rate": 3.98617,
-                "buy_rate": 3.97279,
-                "sell_rate": 3.99956
+                "rate": 4.00085,
+                "buy_rate": 3.98512,
+                "sell_rate": 4.01657
             },
             {
                 "day": 16,
-                "rate": null,
-                "buy_rate": null,
-                "sell_rate": null
+                "rate": 3.99828,
+                "buy_rate": 3.98456,
+                "sell_rate": 4.01199
             },
             {
                 "day": 17,
-                "rate": 3.97958,
-                "buy_rate": 3.96769,
-                "sell_rate": 3.99146
+                "rate": 4.00493,
+                "buy_rate": 3.99214,
+                "sell_rate": 4.01772
             },
             {
                 "day": 18,
-                "rate": 3.9773899999999998,
-                "buy_rate": 3.96626,
-                "sell_rate": 3.98852
+                "rate": 4.021,
+                "buy_rate": 4.00841,
+                "sell_rate": 4.03358
             },
             {
                 "day": 19,
-                "rate": 3.98489,
-                "buy_rate": 3.97331,
-                "sell_rate": 3.99648
+                "rate": 4.01366,
+                "buy_rate": 4.0001,
+                "sell_rate": 4.02721
             },
             {
                 "day": 20,
-                "rate": 3.98239,
-                "buy_rate": 3.9711,
-                "sell_rate": 3.99369
+                "rate": 4.011,
+                "buy_rate": 3.9956,
+                "sell_rate": 4.0264
             },
             {
                 "day": 21,
-                "rate": 3.98492,
-                "buy_rate": 3.97263,
-                "sell_rate": 3.9972
+                "rate": null,
+                "buy_rate": null,
+                "sell_rate": null
             },
             {
                 "day": 22,
-                "rate": 3.98097,
-                "buy_rate": 3.96492,
-                "sell_rate": 3.99702
+                "rate": 4.01402,
+                "buy_rate": 4.00069,
+                "sell_rate": 4.02735
             },
             {
                 "day": 23,
-                "rate": null,
-                "buy_rate": null,
-                "sell_rate": null
+                "rate": 4.01146,
+                "buy_rate": 3.99743,
+                "sell_rate": 4.02549
             },
             {
                 "day": 24,
-                "rate": 3.9981999999999998,
-                "buy_rate": 3.98567,
-                "sell_rate": 4.01073
+                "rate": 4.02225,
+                "buy_rate": 4.00967,
+                "sell_rate": 4.03483
             },
             {
                 "day": 25,
-                "rate": 3.99702,
-                "buy_rate": 3.98395,
-                "sell_rate": 4.0101
+                "rate": 4.02933,
+                "buy_rate": 4.01652,
+                "sell_rate": 4.04213
             },
             {
                 "day": 26,
-                "rate": 3.99053,
-                "buy_rate": 3.97815,
-                "sell_rate": 4.0029
+                "rate": 4.04019,
+                "buy_rate": 4.02735,
+                "sell_rate": 4.05302
             },
             {
                 "day": 27,
-                "rate": 3.97856,
-                "buy_rate": 3.96563,
-                "sell_rate": 3.99148
+                "rate": 4.04231,
+                "buy_rate": 4.02844,
+                "sell_rate": 4.05617
             },
             {
                 "day": 28,
-                "rate": 3.97711,
-                "buy_rate": 3.9643100000000002,
-                "sell_rate": 3.98991
-            },
-            {
-                "day": 29,
-                "rate": 3.97823,
-                "buy_rate": 3.9651300000000003,
-                "sell_rate": 3.99133
-            },
-            {
-                "day": 30,
                 "rate": null,
                 "buy_rate": null,
                 "sell_rate": null
+            },
+            {
+                "day": 29,
+                "rate": 4.05495,
+                "buy_rate": 4.04219,
+                "sell_rate": 4.06771
+            },
+            {
+                "day": 30,
+                "rate": 4.06297,
+                "buy_rate": 4.04942,
+                "sell_rate": 4.07651
+            },
+            {
+                "day": 1,
+                "rate": 3.98235,
+                "buy_rate": 3.97021,
+                "sell_rate": 3.9944800000000003
+            },
+            {
+                "day": 2,
+                "rate": 3.96608,
+                "buy_rate": 3.9508799999999997,
+                "sell_rate": 3.98127
+            },
+            {
+                "day": 3,
+                "rate": 3.97254,
+                "buy_rate": 3.96098,
+                "sell_rate": 3.9840999999999998
             }
         ],
         "lastday": {
-            "day": 30,
-            "rate": null,
-            "buy_rate": null,
-            "sell_rate": null
+            "day": 3,
+            "rate": 3.97254,
+            "buy_rate": 3.96098,
+            "sell_rate": 3.9840999999999998
         },
         "rate_": {
-            "h_min": 3.9285,
-            "h_max": 4.03325,
-            "d_min": 3.87373,
-            "d_max": 4.17179
+            "h_min": 3.8982500000000004,
+            "h_max": 4.00275,
+            "d_min": 3.91127,
+            "d_max": 4.099419999999999
         }
     }
-    var graphData={
-        hourlyBuyRate:[],
-        hourlySellRate:[],
-        hourlyLabelXaxis:[],
-        dailyBuyRate:[],
-        dailySellRate:[]
+    useEffect(()=>{
+        // updateGraphValues(response2);
+        // return;
+        getRates().then((response)=>{
+            setGraphData(response)
+            updateGraphValues(response);
+        }).catch((error)=>{
+            setLoading(false);
+        })
+    },[]);
+
+    const updateGraphValues= (response)=>{
+        console.log({responseData:response})
+        var graphData={
+            hourlyBuyRate:[],
+            hourlySellRate:[],
+            hourlyLabelXaxis:[],
+            dailyBuyRate:[],
+            dailySellRate:[],
+            dailyLabelXaxis:[]
+        }
         
-    }
-    // for today_hour data
-    for(var i=0;i<response.today_hour.length;i++){
-        graphData.hourlyLabelXaxis.push(response.today_hour[i].hour_txt);
-        graphData.hourlyBuyRate.push(response.today_hour[i].buy_rate);
-        graphData.hourlySellRate.push(response.today_hour[i].sell_rate);
-    }
-    
-    // for daily data
-    for(var i=0;i<response.daily.length;i++){
-        graphData.dailyBuyRate.push({y : response.daily[i].buy_rate,x : response.daily[i].day});
-        graphData.dailySellRate.push({y : response.daily[i].sell_rate,x : response.daily[i].day});
-    }
-    const scatterData = {
-        data: {
-            dataSets: [{
-                // values: [{y:1,x:1},{y:2,x:2}],
-                values:graphData.dailyBuyRate,
-                label:"Purchase",
-                config: {
-                    color: processColor('gray'),
-                    scatterShape: 'CIRCLE'
-                }
-                }, {
-                // values: [{y:3,x:3},{y:4,x:4}],
-                values: graphData.dailySellRate? graphData.dailySellRate:[{y:3,x:3},{y:4,x:4}],
-                label: 'Sales',
-                config: {
-                    color: processColor('blue'),
-                    scatterShape: 'CIRCLE',
-                    // scatterShapeHoleRadius: 6,
-                    // scatterShapeHoleColor: processColor('teal')
-                }
+        let hMin = response2?.rate_?.h_min;
+
+        for(var i=0;i<response.today_hour.length;i++){
+            graphData.hourlyLabelXaxis.push(response.today_hour[i].hour_txt);
+            // graphData.hourlyBuyRate.push({x:response.today_hour[i].buy_rate , y:hMin+i*0.1 });
+            // graphData.hourlySellRate.push({x:response.today_hour[i].sell_rate , y:hMin+i*0.1});
+            graphData.hourlyBuyRate.push({y:response.today_hour[i].buy_rate,x:i });
+            graphData.hourlySellRate.push({y:response.today_hour[i].sell_rate ,x:i});
+        }
+        
+        // for daily data
+        for(var i=0;i<response.daily.length;i++){
+            graphData.dailyLabelXaxis.push(response.daily[i]?.day+3);
+            graphData.dailyBuyRate.push({y : response.daily[i].buy_rate?response.daily[i].buy_rate:0 , x : response.daily[i]?.day+3});
+            graphData.dailySellRate.push({y : response.daily[i].sell_rate?response.daily[i].sell_rate:0 , x : response.daily[i]?.day+3});
+        }
+
+        const scatterData = {
+            data: {
+                dataSets: [{
+                            // values: xData,
+                            values:graphData.dailyBuyRate,
+                            // values:(graphData.dailyBuyRate && graphData.dailyBuyRate.length)?graphData.dailyBuyRate:[{y:1,x:1},{y:2,x:2}],
+                            label:"Compra",
+                            config: {
+                                color: processColor('gray'),
+                                scatterShape: 'CIRCLE'
+                            }
+                         }, 
+                        {
+                            values: graphData.dailySellRate,
+                            // values: (graphData.dailySellRate && graphData.dailySellRate.length)? graphData.dailySellRate:[{y:3,x:3},{y:4,x:4}],
+                            label: 'Venta',
+                            config: {
+                                color: processColor('blue'),
+                                scatterShape: 'CIRCLE',
+                                // scatterShapeHoleRadius: 6,
+                                // scatterShapeHoleColor: processColor('teal')
+                            }
+                    
+                }],
+                labels:['edd','ff']
                 
-            }],
-            
-          },
-        legend: {
-            enabled: true,
-            textSize: 14,
-            form: 'CIRCLE',
-            wordWrapEnabled: true,
-            horizontalAlignment:'RIGHT'
-        },
-        marker: {
-            enabled: true,
-            // type: 'com.github.reactNativeMPAndroidChart.example.marker.OvalBlueMarker'
+              },
+            legend: {
+                enabled: true,
+                textSize: 14,
+                form: 'CIRCLE',
+                wordWrapEnabled: true,
+                horizontalAlignment:'RIGHT'
+            },
+            marker: {
+                enabled: true,
+                // type: 'com.github.reactNativeMPAndroidChart.example.marker.OvalBlueMarker'
+            },
+            xAxis: {
+                // valueFormatter: graphData.dailyLabelXaxis,
+                granularityEnabled: true,
+                granularity : 1,
+                position:"BOTTOM"
+            }
         }
-    }
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: '#F5FCFF'
-        },
-        chart: {
-            flex: 1
+        const lineGraphData ={
+            data:{
+                dataSets:[
+                    {
+                        
+                        label: "Venta", 
+                        values:graphData.hourlySellRate,
+                        config:{
+                            color:processColor("blue")
+                        }
+                    },
+                    {
+                        label: "Compara", 
+                        values:graphData.hourlyBuyRate,
+                        config:{
+                            color:processColor("green")
+                        }
+                    }
+                ]
+            },
+            xAxis: {
+                valueFormatter: graphData.hourlyLabelXaxis,
+                // granularityEnabled: true,
+                // granularity : 1,
+                position:"BOTTOM"
+              }
         }
-    });
-    const lineGraphData ={
-        data:{
-            dataSets:[
-                {
-                    label: "Sales", 
-                    values:graphData.hourlySellRate,
-                    config:{
-                        color:processColor("blue")
-                    }
-                },
-                {
-                    label: "Purchase", 
-                    values:graphData.hourlyBuyRate,
-                    
-                    config:{
-                        color:processColor("green")
-                    }
-                }
-            ]
-        },
-        xAxis: {
-            valueFormatter: graphData.hourlyLabelXaxis,
-            granularityEnabled: true,
-            granularity : 1,
-            position:"BOTTOM"
-          }
+        console.log("linechartt:::::")
+        console.log(JSON.stringify(lineGraphData));
+        setScatterData(scatterData);
+        setLineChartData(lineGraphData);
+        setLoading(false);
+
     }
+   
+    
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1,backgroundColor:'#bdd8fc' }}>
             <StatusBar backgroundColor={'#111'} />
-            <View style={{flex: 1}}>
-                <View style={styles.container}>
-                    <LineChart style={styles.chart}
-                        // data={{dataSets:[{label: "demo", values: [{y: 1}, {y: 2}, {y: 1}]}]}}
-                        data={lineGraphData.data}
-                        xAxis={lineGraphData.xAxis}
-                        yAxis={{
-                            left: { enabled: true}, //=> enabled is the key not enable
-                            right: { enabled: false},
-                            }}
-                        chartDescription={{ text: '' }}
-                    />
-                </View>
-                <View style={styles.container}>
-                    {/* {scatterData.data && <ScatterChart
-                        style={styles.chart}
-                        data={scatterData.data}
-                        legend={scatterData.legend}
-                        marker={scatterData.marker}
-                        xAxis={{position:"BOTTOM"}}
-                        yAxis={{
-                            left: { enabled: true}, //=> enabled is the key not enable
-                            right: { enabled: false},
-                            }}
-                        drawValues={false}
-                        chartDescription={{ text: '' }}
-                        // onSelect={this.handleSelect.bind(this)}
-                        // onChange={(event) => console.log(event.nativeEvent)}
-                    />} */}
-                    
-                </View>
-            </View>
-            
+
+                {isLoading?<View style={{flex:1,justifyContent:'center',alignSelf:'center'}}>
+                    <ActivityIndicator size="large" color={Color.theme} />
+                </View>:
+                <View style={styles.mainContainer}>
+                    <ScrollView nestedScrollEnabled={true}>
+                        <View style={{marginTop:20}}></View>
+                        {lineChartData?.data &&  
+                        <View style={styles.container}>
+
+                            <Text style={{textAlign:'center',fontWeight:'bold',color:'#444',marginVertical:7}}>Tipo de Cambio del Día</Text>
+                            <View style={{flexDirection:'column',justifyContent:'space-between',alignItems:'center',marginVertical:10}}>
+                                <View><Text style={{color:'#444'}}><Text style={{fontWeight:'bold'}}>Divisapp</Text> <Text>Actualización cada hora</Text></Text></View>
+                                <View><Text style={{color:'#444'}}>Tipo de cambio promedio de ayer  <Text style={{fontWeight:'bold'}}>{graphData?.lastday?.rate}</Text></Text></View>
+                            </View>
+                            <LineChart style={styles.chart}
+                                data={lineChartData.data}
+                                xAxis={lineChartData.xAxis}
+                                yAxis={{
+                                        left: { 
+                                            enabled: true,
+                                            
+                                        }, //=> enabled is the key not enable
+                                        right: { enabled: false},
+                                    }}
+                                chartDescription={{ text: '' }}
+                            />
+                        </View>}
+
+                        <View style={{marginBottom:30}}></View>
+                        
+                        <View style={styles.container}>
+                            <Text style={{textAlign:'center',fontWeight:'bold',color:'#444'}}>Tipo de Cambio del Mes</Text>
+                            
+                            <Text style={{fontWeight:'bold',color:'#444'}}>
+                                <Text style={{fontWeight:'bold'}}> Divisapp</Text>
+                                <Text>Actualización diaria</Text>
+                            </Text>
+
+                            {(scatterData2 && scatterData2.data) && <ScatterChart
+                                style={styles.chart}
+                                data={scatterData2.data}
+                                legend={scatterData2.legend}
+                                marker={scatterData2.marker}
+                                xAxis={scatterData2.xAxis}
+                                yAxis={{
+                                    left: { enabled: true}, //=> enabled is the key not enable
+                                    right: { enabled: false},
+                                    }}
+                                drawValues={false}
+                                chartDescription={{ text: '' }}
+                                
+                            />}
+                            
+                        </View>
+
+                        <View style={{paddingHorizontal:5,marginVertical:20}}>
+                            <Text  style={{textAlign:'center',fontWeight:'bold',color:'#444',marginVertical:10}}>Tipo de Cambio Histórico</Text>
+                            <WebView 
+                                style={{
+                                    width: Constant.width-40,
+                                    height: Constant.height/2
+                                }}
+                                source={{ uri: 'https://sslcharts.forexprostools.com/index.php?force_lang=1&pair_ID=2177&timescale=1800&candles=50&style=candles' }} 
+                                // nestedScrollEnabled={true}
+                            />
+                        </View>
+
+                        <View style={{paddingHorizontal:5,marginVertical:20}}>
+                            <Text style={{textAlign:'center',fontWeight:'bold',color:'#444',marginVertical:10}}>Principales Monedas</Text>
+                                <ScrollView  showsHorizontalScrollIndicator={true}> 
+                                    <WebView 
+                                        style={{
+                                            width: Constant.width-50,
+                                            height: Constant.height/2
+                                        }}
+                                        source={{ uri: 'https://www.widgets.investing.com/live-currency-cross-rates?theme=lightTheme&roundedCorners=true&pairs=2086,2110,2112,2124,2126,2177' }} 
+                                        
+                                        nestedScrollEnabled={true}
+                                        
+                                    />
+                                </ScrollView>
+                        </View>
+
+                    </ScrollView> 
+
+                </View>}
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        height:Constant.height/2.5,
+        paddingHorizontal:30,
+        backgroundColor: '#F5FCFF'
+    },
+    chart: {
+        flex: 1
+    },
+    mainContainer:{
+        flex:1,
+        backgroundColor:'#e1e8f2',
+        paddingHorizontal:20
+    }
+});
 
 export default ExchangeRate;

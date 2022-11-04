@@ -570,6 +570,7 @@ const App =  ({props}) => {
                         <>
 
                          
+                          
 
                           <HomeStack.Screen name=" " component={ Tabs } options={{
                                       headerShown:true
