@@ -7,7 +7,8 @@ import {
     Image,
     TouchableOpacity,
     StyleSheet,
-    ActivityIndicator
+    ActivityIndicator,
+    AsyncStorage
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 
@@ -33,7 +34,7 @@ import { showToast, showToastLong } from "../../utility/Index";
 
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import Color from "../../utility/Color";
 
 

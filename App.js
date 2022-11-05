@@ -1,6 +1,6 @@
 
 import React,{ useEffect, useState } from 'react';
-import {View, useWindowDimensions,StyleSheet,Platform,FlatList,Text,Image, TouchableOpacity,Alert, ImageBackground,SafeAreaView} from 'react-native';
+import {View, useWindowDimensions,StyleSheet,Platform,FlatList,Text,Image, TouchableOpacity,Alert, ImageBackground,AsyncStorage} from 'react-native';
 import { NavigationContainer , createNavigationContainerRef} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -13,7 +13,7 @@ import BottomTabBar from './navigation/BottomTabBar';
 
 import Constant from './utility/Constant';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   Menu,
@@ -570,16 +570,16 @@ const App =  ({props}) => {
                         <>
 
                          
-                          
+                          {/* <HomeStack.Screen name="ExchangeRate" component={ ExchangeRate } 
+                                        options={{
+                                                    headerShown:false
+                          }} /> */}
 
                           <HomeStack.Screen name=" " component={ Tabs } options={{
                                       headerShown:true
                                       // headerShown:!hideHeader?true:false,
                           }} />
-                           {/* <HomeStack.Screen name="ChangePass" component={ ChangePassword } 
-                                        options={{
-                                                    headerShown:false
-                          }} /> */}
+
                           
                           <HomeStack.Screen name="    " component={ BankAccounts }
                             

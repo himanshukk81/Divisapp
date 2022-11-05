@@ -1,6 +1,6 @@
 import Constants from '../utility/Constant';
-import { BackHandler } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BackHandler ,AsyncStorage } from 'react-native';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 async function callApi(urlString, body, methodType) {
   console.log('-----------AXIOS  Api request is----------- ');

@@ -291,19 +291,21 @@ const ExchangeRate = (props) => {
 
         for(var i=0;i<response.today_hour.length;i++){
             graphData.hourlyLabelXaxis.push(response.today_hour[i].hour_txt);
-            // graphData.hourlyBuyRate.push({x:response.today_hour[i].buy_rate , y:hMin+i*0.1 });
-            // graphData.hourlySellRate.push({x:response.today_hour[i].sell_rate , y:hMin+i*0.1});
             graphData.hourlyBuyRate.push({y:response.today_hour[i].buy_rate,x:i });
             graphData.hourlySellRate.push({y:response.today_hour[i].sell_rate ,x:i});
         }
         
         // for daily data
         for(var i=0;i<response.daily.length;i++){
-            graphData.dailyLabelXaxis.push(response.daily[i]?.day+3);
+            // graphData.dailyLabelXaxis.push(response.daily[i]?.day+3);
+            // graphData.dailyBuyRate.push({y : response.daily[i].buy_rate?response.daily[i].buy_rate:0 , x : response.daily[i]?.day+3});
+            // graphData.dailySellRate.push({y : response.daily[i].sell_rate?response.daily[i].sell_rate:0 , x : response.daily[i]?.day+3});
             graphData.dailyBuyRate.push({y : response.daily[i].buy_rate?response.daily[i].buy_rate:0 , x : response.daily[i]?.day+3});
             graphData.dailySellRate.push({y : response.daily[i].sell_rate?response.daily[i].sell_rate:0 , x : response.daily[i]?.day+3});
         }
 
+        console.log("da,,");
+        console.log(JSON.stringify(graphData));
         const scatterData = {
             data: {
                 dataSets: [{
@@ -312,8 +314,9 @@ const ExchangeRate = (props) => {
                             // values:(graphData.dailyBuyRate && graphData.dailyBuyRate.length)?graphData.dailyBuyRate:[{y:1,x:1},{y:2,x:2}],
                             label:"Compra",
                             config: {
-                                color: processColor('gray'),
-                                scatterShape: 'CIRCLE'
+                                color: processColor('green'),
+                                scatterShape: 'CIRCLE',
+                                scatterShapeSize: 25,
                             }
                          }, 
                         {
@@ -323,17 +326,19 @@ const ExchangeRate = (props) => {
                             config: {
                                 color: processColor('blue'),
                                 scatterShape: 'CIRCLE',
+                                scatterShapeSize: 15,
                                 // scatterShapeHoleRadius: 6,
                                 // scatterShapeHoleColor: processColor('teal')
                             }
                     
-                }],
+                        }
+            ],
                 labels:['edd','ff']
                 
               },
             legend: {
                 enabled: true,
-                textSize: 14,
+                textSize: 16,
                 form: 'CIRCLE',
                 wordWrapEnabled: true,
                 horizontalAlignment:'RIGHT'
@@ -400,7 +405,7 @@ const ExchangeRate = (props) => {
 
                             <Text style={{textAlign:'center',fontWeight:'bold',color:'#444',marginVertical:7}}>Tipo de Cambio del Día</Text>
                             <View style={{flexDirection:'column',justifyContent:'space-between',alignItems:'center',marginVertical:10}}>
-                                <View><Text style={{color:'#444'}}><Text style={{fontWeight:'bold'}}>Divisapp</Text> <Text>Actualización cada hora</Text></Text></View>
+                                <View><Text style={{color:'#444'}}><Text style={{fontWeight:'bold'}}>Divisapp</Text><Text>{' '}</Text> <Text>Actualización cada hora</Text></Text></View>
                                 <View><Text style={{color:'#444'}}>Tipo de cambio promedio de ayer  <Text style={{fontWeight:'bold'}}>{graphData?.lastday?.rate}</Text></Text></View>
                             </View>
                             <LineChart style={styles.chart}
@@ -424,6 +429,7 @@ const ExchangeRate = (props) => {
                             
                             <Text style={{fontWeight:'bold',color:'#444'}}>
                                 <Text style={{fontWeight:'bold'}}> Divisapp</Text>
+                                <Text>{' '}</Text>
                                 <Text>Actualización diaria</Text>
                             </Text>
 
@@ -481,7 +487,7 @@ const ExchangeRate = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        height:Constant.height/2.5,
+        height:Constant.height/2,
         paddingHorizontal:30,
         backgroundColor: '#F5FCFF'
     },

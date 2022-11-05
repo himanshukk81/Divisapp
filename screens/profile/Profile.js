@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {SafeAreaView,View,Text,StyleSheet,FlatList,Image,ScrollView, TouchableOpacity,ActivityIndicator , StatusBar ,TextInput } from "react-native";
+import {SafeAreaView,View,Text,StyleSheet,FlatList,Image,ScrollView, TouchableOpacity,ActivityIndicator , StatusBar ,AsyncStorage } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import InputBox from "../../component/InputBox";
 import CheckBox from '@react-native-community/checkbox';
@@ -17,7 +17,7 @@ import Modal from "react-native-modal";
 import Constant from "../../utility/Constant";
 
 import { showToast, showToastLong } from "../../utility/Index";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputsCompany from "../../utility/InputsCompany";
 import UserProfile from "../../utility/UserProfile";
 import Color from "../../utility/Color";

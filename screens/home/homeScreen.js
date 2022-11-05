@@ -7,7 +7,6 @@ import RegisterModal from "../../component/RegisterModal";
 import { ScrollView } from "react-native-gesture-handler";
 import { calculateCurrency, getProfileInfo, operations } from "../../services/Api";
 import { showToast, showToastCenter, showToastLong } from "../../utility/Index";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 
 class HomeScreen extends Component {
