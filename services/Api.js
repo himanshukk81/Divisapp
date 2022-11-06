@@ -1,6 +1,6 @@
 import Constants from '../utility/Constant';
-import { BackHandler } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BackHandler ,AsyncStorage } from 'react-native';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 async function callApi(urlString, body, methodType) {
   console.log('-----------AXIOS  Api request is----------- ');
@@ -212,4 +212,9 @@ export async function updatePass(parms) {
   console.log('----------Change Password------------------');
   console.log({parms:parms});
   return callApi(Constants.API_URL + 'password_update',parms, 'POST');
+}
+
+export async function getRates() {
+  console.log('----------Get Rates------------------');
+  return callApi(Constants.API_URL + 'rates',{}, 'GET');
 }

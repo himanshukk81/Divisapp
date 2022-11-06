@@ -7,7 +7,8 @@ import {
     Image,
     TouchableOpacity,
     StyleSheet,
-    ActivityIndicator
+    ActivityIndicator,
+    AsyncStorage
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 
@@ -33,7 +34,7 @@ import { showToast, showToastLong } from "../../utility/Index";
 
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import Color from "../../utility/Color";
 
 
@@ -214,8 +215,6 @@ const Signin2 =(props) =>{
         const response = await fetch(url, options);
         const jsonResposne = await response.json();
 
-        console.log({jsonResposnejsonResposne:jsonResposne});
-
         if(jsonResposne.display_message){
             showToast(jsonResposne.display_message);
             return;
@@ -375,6 +374,7 @@ const Signin2 =(props) =>{
             LoginManager.logInWithPermissions(['public_profile','email']).then(
                 login => {
 
+                    
                   if (login.isCancelled) {
                     console.log('Login cancelled');
                   } else {

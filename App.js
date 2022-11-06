@@ -1,20 +1,19 @@
 
 import React,{ useEffect, useState } from 'react';
-import {View, useWindowDimensions,StyleSheet,Platform,FlatList,Text,Image, TouchableOpacity,Alert, ImageBackground,SafeAreaView} from 'react-native';
+import {View, useWindowDimensions,StyleSheet,Platform,FlatList,Text,Image, TouchableOpacity,Alert, ImageBackground,AsyncStorage} from 'react-native';
 import { NavigationContainer , createNavigationContainerRef} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Signin2 from './screens/auth/signinScreen';
 import Profile from './screens/profile/Profile';
 import { MenuProvider } from 'react-native-popup-menu';
-
 import { createDrawerNavigator , DrawerContentScrollView ,DrawerItem} from '@react-navigation/drawer';
 
 import BottomTabBar from './navigation/BottomTabBar';
 
 import Constant from './utility/Constant';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   Menu,
@@ -36,6 +35,7 @@ import ProgressDetail from './screens/operations/progressDetail';
 import FaqPage from './screens/FAQ/faq';
 import { WebView } from 'react-native-webview';
 import ChangePassword from './screens/ChangePassword/ChangePassword';
+import ExchangeRate from './screens/ExchangeRate/ExchangeRate';
 
 // import store from './app/store';
 
@@ -104,7 +104,7 @@ const leftItems = [
     'submenhus':[
     ],
     'rightIcon':false,
-    'path':'faq',
+    'path':'ExchangeRate',
     'checked':false
   },
   {
@@ -568,15 +568,18 @@ const App =  ({props}) => {
                          >
                         {(userInfo && userInfo?.id) ? (
                         <>
+
                          
+                          {/* <HomeStack.Screen name="ExchangeRate" component={ ExchangeRate } 
+                                        options={{
+                                                    headerShown:false
+                          }} /> */}
+
                           <HomeStack.Screen name=" " component={ Tabs } options={{
                                       headerShown:true
                                       // headerShown:!hideHeader?true:false,
                           }} />
-                           {/* <HomeStack.Screen name="ChangePass" component={ ChangePassword } 
-                                        options={{
-                                                    headerShown:false
-                          }} /> */}
+
                           
                           <HomeStack.Screen name="    " component={ BankAccounts }
                             
@@ -654,6 +657,12 @@ const App =  ({props}) => {
                                         headerTitle:''
                             }} 
               />
+
+              <HomeStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
+                          headerShown:false,
+                          headerTitle:''
+              }} />
+
               <HomeStack.Screen name="Web" component={ WebPage } 
                         options={{
                                     headerShown:false,
@@ -717,6 +726,10 @@ const App =  ({props}) => {
             <OperationStack.Screen name="Operaciones" component={ Operations } 
                           options={{
                                       headerShown:false
+            }} />
+            <OperationStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
+                          headerShown:false,
+                          headerTitle:''
             }} />
 
             <OperationStack.Screen name="Web" component={ WebPage } 
@@ -784,6 +797,10 @@ const App =  ({props}) => {
                                           headerTitle:''
                               }} 
                 />
+                <ProfileStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
+                          headerShown:false,
+                          headerTitle:''
+                }} />
                 <ProfileStack.Screen name="Web" component={ WebPage } 
                             options={{
                                         headerShown:false,
@@ -838,6 +855,11 @@ const App =  ({props}) => {
       return(
         <GraphStack.Navigator>
               
+              
+              <GraphStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
+                        headerShown:false,
+                        headerTitle:''
+              }} />
               <GraphStack.Screen name="Profile" component={ Profile } 
                             options={{
                                         headerShown:false,
@@ -902,6 +924,10 @@ const App =  ({props}) => {
                                         headerTitle:''
                             }} 
               />
+              <WebPageStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
+                          headerShown:false,
+                          headerTitle:''
+              }} />
 
               <WebPageStack.Screen name="ChangePass" component={ ChangePassword } 
                             options={{

@@ -1,12 +1,12 @@
 import React from "react";
-import { View , StyleSheet,Text,ScrollView,Image,TouchableOpacity,ActivityIndicator} from "react-native";
+import { View , StyleSheet,Text,ScrollView,Image,TouchableOpacity,ActivityIndicator,AsyncStorage} from "react-native";
 import Constant from "../utility/Constant";
 import Modal from "react-native-modal";
 import Color from "../utility/Color";
 import { Dropdown } from 'react-native-element-dropdown';
 import CheckBox from '@react-native-community/checkbox';
 import { registerForOperations } from "../services/Api";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { showToast } from "../utility/Index";
 
 export default class RegisterModal extends React.Component {

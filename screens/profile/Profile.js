@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {SafeAreaView,View,Text,StyleSheet,FlatList,Image,ScrollView, TouchableOpacity,ActivityIndicator , StatusBar ,TextInput } from "react-native";
+import {SafeAreaView,View,Text,StyleSheet,FlatList,Image,ScrollView, TouchableOpacity,ActivityIndicator , StatusBar ,AsyncStorage } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import InputBox from "../../component/InputBox";
 import CheckBox from '@react-native-community/checkbox';
@@ -17,7 +17,7 @@ import Modal from "react-native-modal";
 import Constant from "../../utility/Constant";
 
 import { showToast, showToastLong } from "../../utility/Index";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputsCompany from "../../utility/InputsCompany";
 import UserProfile from "../../utility/UserProfile";
 import Color from "../../utility/Color";
@@ -270,10 +270,10 @@ const Profile = (props) =>{
         setLoading(false);
         let status = profileInfo?.created_by?.status;
 
-        // if(status == 1 || status == 2){
-        //     props.navigation.navigate('Cambiar')  
-        // }
-        
+        if(status){
+            setStatus(status);
+        }
+       
        
 
     }
@@ -298,6 +298,7 @@ const Profile = (props) =>{
     const onChangeCompany = (value,index)=>{
         if(index || index==0){
          inputFieldsCompany[index][inputFieldsCompany[index]['key']]=value;
+         console.log("index== 29999"+index);
         
          if(value){
             inputFieldsCompany[index]['erroMessage'] = '';
@@ -665,7 +666,6 @@ const Profile = (props) =>{
                     </Text>
 
                     <DatePicker
-                        theme={'dark'}
                         mode={'date'}
                         locale='es'
                         modal
@@ -681,8 +681,6 @@ const Profile = (props) =>{
                         onCancel={() => {
                             setOpen(false)
                         }}
-                        // textColor={Color.black}
-
                     />
 
                     <TouchableOpacity onPress={()=>{
@@ -803,7 +801,6 @@ const Profile = (props) =>{
                     <DatePicker
                         mode={'date'}
                         locale='es'
-                        theme={'dark'}
                         textColor={'#FFF'}
                         modal
                         open={isOpen}
@@ -937,6 +934,8 @@ const Profile = (props) =>{
             }
             else if(key=='is_pep'){
 
+                console.log("prfff==");
+                console.log(userProfileInfo?.is_pep);
                 if(userProfileInfo?.is_pep){
                     return userProfileInfo?.is_pep==1?'SI':'No';
                 }
@@ -1212,6 +1211,7 @@ const Profile = (props) =>{
         }
         options.body = JSON.stringify(body);
 
+        console.log({body12000:body});
         const response = await fetch(url, options);
         const jsonResposne = await response.json();
 
@@ -1248,6 +1248,7 @@ const Profile = (props) =>{
     }
     const saveContactData = async ()=>{
 
+        console.log("profile======"+profile);
         // if(profile==1){
             let errorMessage2 = false;
             for(let i=0;i<inputFields.length;i++){
