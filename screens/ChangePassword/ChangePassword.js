@@ -4,6 +4,9 @@ import InputBox from '../../component/InputBox'
 import { updatePass } from '../../services/Api';
 import Color from '../../utility/Color';
 import { showToastLong } from '../../utility/Index';
+import { NavigationContainer , createNavigationContainerRef} from '@react-navigation/native';
+
+  const navigationRef = createNavigationContainerRef()
 
 function renderError(text){
     return(
@@ -18,7 +21,7 @@ function renderError(text){
         </Text>
     )
 }
-function ChangePassword() {
+function ChangePassword(props) {
 
   const [password , setPassword] = useState('');
   const [confirmPass , setConfirmPassword] = useState('');
@@ -47,13 +50,20 @@ function ChangePassword() {
     updatePass(pass_info).then((response)=>{
         console.log("error::",response);
         if(response?.success){
+            setPassword('')
+            setConfirmPassword('');
             showToastLong(response?.message);
+            // props.navigation.navigate('Cambiar');
+            navigationRef.navigate('profile')
         }
         else{
             let message = response?.errors?.password[0];
             console.log("Message:::",message);
             showToastLong(message);
         }
+
+        // props.navi
+        
         setLoading(false);
         
     }).catch((error)=>{
@@ -75,6 +85,7 @@ function ChangePassword() {
                 setPassword(value)
                 setErrorPass('')
             }}
+            value={password}
             secure={true}
         />
         {errorPassword!='' && renderError(errorPassword)}
@@ -87,6 +98,7 @@ function ChangePassword() {
                 setConfirmPassword(value)
                 setCofirmErrorPass('');
             }}
+            value={confirmPass}
             secure={true}
         />
 

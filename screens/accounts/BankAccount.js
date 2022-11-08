@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {SafeAreaView,View,Text,FlatList,StatusBar,ActivityIndicator,TouchableOpacity,TextInput,Image,AsyncStorage } from "react-native";
+import {SafeAreaView,View,Text,FlatList,StatusBar,ActivityIndicator,TouchableOpacity,TextInput,Image } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import InputBox from "../../component/InputBox";
 import styles from "./styles";
@@ -12,7 +12,7 @@ import { showToast, showToastLong } from "../../utility/Index";
 import BankProfile from "../../utility/BankProfile";
 import ModalComponent from "../../component/ModalComponent";
 import { userAccountCreate, userAccountUpdate, userBankFetch } from "../../services/Api";
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BankAccount = (props) =>{
     

@@ -8,7 +8,8 @@ import {
     Text,
     ActivityIndicator,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Image
 } from "react-native";
 import { faqCategories, faqQuestions } from "../../services/Api";
 import Color from "../../utility/Color";
@@ -19,6 +20,7 @@ const FaqPage =(props) =>{
     const [questions , setFaqQuestions ] = useState([]);
     const [refresh , refreshList ] = useState(new Date());
     const [allQuestions , setAllQuestions ] = useState([]);
+    const [faqIcons , setFAQIcons ] = useState([require('../../assets/images/faq/conversation.png'),require('../../assets/images/faq/user.png'),require('../../assets/images/faq/trade.png'),require('../../assets/images/faq/info.png')]);
 
 
     useEffect(async ()  =>{ 
@@ -84,6 +86,12 @@ const FaqPage =(props) =>{
                     refreshList(new Date());
                 }}>
                     <View style={categories[index] && categories[index].active?[styles.cardContainer,{backgroundColor:Color.theme} ]:[styles.cardContainer,{backgroundColor:Color.white}]}>
+                            <Image
+                                source={faqIcons[index]}
+                                style={{ height: 35.0, width: 35.0,marginHorizontal:3}}
+                                resizeMode="contain"
+                            />
+
                         <Text style={(categories[index] && categories[index].active)?[styles.labelColor,{textAlign:'center',color:Color.white}]:[styles.labelColor,{textAlign:'center'}]}>{categories[index]?.category}</Text>
                     </View>
                 </TouchableOpacity>
@@ -161,15 +169,17 @@ const styles = StyleSheet.create({
         // backgroundColor:Color.white,
         borderRadius:3,
         marginVertical:2,
-        paddingVertical:50,
+        paddingVertical:30,
+        flexDirection:'column',
+        alignItems:'center'
         // paddingHorizontal:15
     },
     cardQuestionContainer:{
         backgroundColor:Color.white,
         borderRadius:3,
-        marginVertical:10,
-        paddingVertical:15,
-        // paddingHorizontal:15
+        marginVertical:15,
+        // paddingVertical:10,
+        paddingHorizontal:30
     }
 });
 

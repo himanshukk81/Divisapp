@@ -1,6 +1,6 @@
 
 import React,{ useEffect, useState } from 'react';
-import {View, useWindowDimensions,StyleSheet,Platform,FlatList,Text,Image, TouchableOpacity,Alert, ImageBackground,AsyncStorage} from 'react-native';
+import {View, useWindowDimensions,StyleSheet,Platform,FlatList,Text,Image, TouchableOpacity,Alert, ImageBackground} from 'react-native';
 import { NavigationContainer , createNavigationContainerRef} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -13,7 +13,7 @@ import BottomTabBar from './navigation/BottomTabBar';
 
 import Constant from './utility/Constant';
 
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   Menu,
@@ -36,6 +36,9 @@ import FaqPage from './screens/FAQ/faq';
 import { WebView } from 'react-native-webview';
 import ChangePassword from './screens/ChangePassword/ChangePassword';
 import ExchangeRate from './screens/ExchangeRate/ExchangeRate';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+
+import Color from "./utility/Color";
 
 // import store from './app/store';
 
@@ -181,7 +184,9 @@ const leftItems = [
 const App =  ({props}) => {
 
     var propsDrawer;
+    var activeIndex = 0;
     const [splash, setSplash] = useState(true);
+    // const [activeIndex, setActiveIndex] = useState(0);
     const [userInfo, setUserInfo] = useState(null);
     const navigationRef = createNavigationContainerRef();
     const [webUrl, setWebUrl] = useState('');
@@ -235,9 +240,11 @@ const App =  ({props}) => {
             else{
               item.checked = !item.checked;
             }
+            // setActiveIndex(index)
+            activeIndex = index;
 
          }}>
-          <View style={{paddingVertical:8,flexDirection:'row',alignItems:'center'  }}>
+          <View style={[activeIndex == index?{borderBottomColor:Color.theme,borderBottomWidth:1}:null,{paddingVertical:8,flexDirection:'row',alignItems:'center'  }]}>
             
               <Image source={item.icon}
                 style={{ height: 22, width: 22,marginRight:11 }}
@@ -270,7 +277,8 @@ const App =  ({props}) => {
               AsyncStorage.removeItem('access_token');
               setTimeout(()=>{
                 // props.navigation.navigate('Login');
-                navigationRef.navigate('Login')
+                // navigationRef.navigate('Login')
+                propsDrawer.navigation.navigate('Login')
                 _menu.close();
               },600);
             }},
@@ -370,15 +378,18 @@ const App =  ({props}) => {
         let userParse = JSON.parse(user);
 
         
+        console.log({userParsellll:userParse});
 
         setUserInfo(userParse);
         setTimeout(()=>{
-          if(userParse?.status == 1 || userParse?.status == 1){
+          console.log({userParseljjjj:userParse});
+          if(userParse?.status == 1 || userParse?.status == 2){
             // const jumpToAction = TabActions.jumpTo("Cambiar");
             // navigationRef.dispatch(jumpToAction);
             // propsDrawer.navigation.navigate('Cambiar');
             // alert("navigate to cambiar")
             navigationRef.navigate('Cambiar')
+            // propsDrawer.navigation.navigate('Cambiar');
           }
           
 
@@ -446,12 +457,28 @@ const App =  ({props}) => {
               <Tab.Screen
                   name="profile"
                   component={ProfileStacks}
-                  options={{     
+                  listeners={({ navigation }) => ({
+                    tabPress: (e) => {
+                      // Prevent default action
+                      e.preventDefault();
+                      propsDrawer.navigation.navigate('BankAccounts');
+                      // Do something with the `navigation` object
+                      // navigation.navigate("PhotoNavigation"); // Here!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    },
+                  })}
+                  options={{  
+                                    
                     tabBarLabel: 'Cuentas',
                     tabBarIconPath:require('./assets/images/bottomIcon/accounts.png'),
                   
                     headerShown:false,
                     tabBarHideOnKeyboard:true,
+                    // tabPress:()=><TouchableOpacity onPress={()=>{
+                    //   console.log("Toucbable click:")
+                    //   propsDrawer.navigation.navigate('BankAccounts');
+                    // }}
+                    // ></TouchableOpacity>,
+
                   }}  
               />
               <Tab.Screen
@@ -471,11 +498,14 @@ const App =  ({props}) => {
                   component={HomeStacks}
                   options={{
                     tabBarLabel: 'Cambiar',
+                    
+
                     tabBarIconPath:require('./assets/images/bottomIcon/dollar.png'),
                  
                       headerShown:false,
                       tabBarHideOnKeyboard:true,
                   }}
+                  
               />
 
               <Tab.Screen
@@ -790,12 +820,19 @@ const App =  ({props}) => {
     const ProfileStacks = () =>{
         return(
           <ProfileStack.Navigator>
-                
+                 
                 <ProfileStack.Screen name="Profile" component={ Profile } 
                               options={{
                                           headerShown:false,
                                           headerTitle:''
                               }} 
+                />
+                <ProfileStack.Screen name="BankAccounts" component={ BankAccounts }
+                  
+                  options={{
+                              headerShown:false,
+                              headerTitle:'' 
+                  }} 
                 />
                 <ProfileStack.Screen name="ExchangeRate" component={ ExchangeRate } options={{
                           headerShown:false,
@@ -818,13 +855,7 @@ const App =  ({props}) => {
                               headerTitle:''
                   }} 
                 />
-                <ProfileStack.Screen name="BankAccounts" component={ BankAccounts }
-                  
-                  options={{
-                              headerShown:false,
-                              headerTitle:'' 
-                  }} 
-                />
+               
                 <ProfileStack.Screen name="BankAccount" component={ BankAccount } options={{
                             headerShown:false,
                             headerTitle:''  

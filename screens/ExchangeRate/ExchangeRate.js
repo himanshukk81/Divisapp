@@ -300,15 +300,16 @@ const ExchangeRate = (props) => {
             // graphData.dailyLabelXaxis.push(response.daily[i]?.day+3);
             // graphData.dailyBuyRate.push({y : response.daily[i].buy_rate?response.daily[i].buy_rate:0 , x : response.daily[i]?.day+3});
             // graphData.dailySellRate.push({y : response.daily[i].sell_rate?response.daily[i].sell_rate:0 , x : response.daily[i]?.day+3});
-            graphData.dailyBuyRate.push({y : response.daily[i].buy_rate?response.daily[i].buy_rate:0 , x : response.daily[i]?.day+3});
-            graphData.dailySellRate.push({y : response.daily[i].sell_rate?response.daily[i].sell_rate:0 , x : response.daily[i]?.day+3});
+            graphData.dailyBuyRate.push({y : response.daily[i].buy_rate?response.daily[i].buy_rate:0 , x : response.daily[i]?.day+2});
+            graphData.dailySellRate.push({y : response.daily[i].sell_rate?response.daily[i].sell_rate:0 , x : response.daily[i]?.day+2});
         }
 
         console.log("da,,");
         console.log(JSON.stringify(graphData));
         const scatterData = {
             data: {
-                dataSets: [{
+                dataSets: [
+                        {
                             // values: xData,
                             values:graphData.dailyBuyRate,
                             // values:(graphData.dailyBuyRate && graphData.dailyBuyRate.length)?graphData.dailyBuyRate:[{y:1,x:1},{y:2,x:2}],
@@ -318,7 +319,8 @@ const ExchangeRate = (props) => {
                                 scatterShape: 'CIRCLE',
                                 scatterShapeSize: 25,
                             }
-                         }, 
+                        }, 
+
                         {
                             values: graphData.dailySellRate,
                             // values: (graphData.dailySellRate && graphData.dailySellRate.length)? graphData.dailySellRate:[{y:3,x:3},{y:4,x:4}],
@@ -331,7 +333,13 @@ const ExchangeRate = (props) => {
                                 // scatterShapeHoleColor: processColor('teal')
                             }
                     
-                        }
+                        },
+                        // {
+                        //     data:[20]
+                        // },
+                        // {
+                        //     data:[50]
+                        // }
             ],
                 labels:['edd','ff']
                 
@@ -351,7 +359,13 @@ const ExchangeRate = (props) => {
                 // valueFormatter: graphData.dailyLabelXaxis,
                 granularityEnabled: true,
                 granularity : 1,
-                position:"BOTTOM"
+                position:"BOTTOM",
+                // visibleRange:{
+                //     x:{
+                //         min:8,
+                //         max:8,
+                //     }
+                // }
             }
         }
         const lineGraphData ={
@@ -366,7 +380,7 @@ const ExchangeRate = (props) => {
                         }
                     },
                     {
-                        label: "Compara", 
+                        label: "Compra", 
                         values:graphData.hourlyBuyRate,
                         config:{
                             color:processColor("green")
@@ -412,10 +426,7 @@ const ExchangeRate = (props) => {
                                 data={lineChartData.data}
                                 xAxis={lineChartData.xAxis}
                                 yAxis={{
-                                        left: { 
-                                            enabled: true,
-                                            
-                                        }, //=> enabled is the key not enable
+                                        left: { axisMinimum:graphData?.rate_?.h_min ,axisMaximum:graphData?.rate_?.h_max },
                                         right: { enabled: false},
                                     }}
                                 chartDescription={{ text: '' }}
@@ -440,8 +451,9 @@ const ExchangeRate = (props) => {
                                 marker={scatterData2.marker}
                                 xAxis={scatterData2.xAxis}
                                 yAxis={{
-                                    left: { enabled: true}, //=> enabled is the key not enable
+                                    left: { axisMinimum:graphData?.rate_?.d_min ,axisMaximum:graphData?.rate_?.d_max }, //=> enabled is the key not enable
                                     right: { enabled: false},
+                                
                                     }}
                                 drawValues={false}
                                 chartDescription={{ text: '' }}

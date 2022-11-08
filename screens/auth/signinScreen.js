@@ -7,10 +7,11 @@ import {
     Image,
     TouchableOpacity,
     StyleSheet,
-    ActivityIndicator,
-    AsyncStorage
+    ActivityIndicator
 } from "react-native";
+
 import { useNavigation } from "@react-navigation/core";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import CheckBox from '@react-native-community/checkbox';
 import { Fonts, Colors, Sizes } from "../../constants/styles";
@@ -270,6 +271,7 @@ const Signin2 =(props) =>{
 
     async function storeData(response,data){
         setLoading(true);
+        console.log({responseUSer:response});
         await AsyncStorage.setItem(
             'user',JSON.stringify(response.user),
         );
@@ -291,10 +293,24 @@ const Signin2 =(props) =>{
         setTimeout(()=>{
             setLoading(false);
             // props.navigation.navigate(' ');
-            props.navigation.reset({
-                index: 0,
-                routes: [{ name: ' ' }]
-           })
+
+            props.navigation.navigate(' ');
+
+            if(response?.user?.status == 0){
+                
+                // props.navigation.navigate('profile');
+                props.navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'profile' }]
+                })
+            }
+            else{
+                props.navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Cambiar' }]
+                })
+            }
+            
         },1800);
     }
     async function forgotPassword(){

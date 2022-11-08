@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {SafeAreaView,View,Text,StyleSheet,FlatList,Image,ScrollView, TouchableOpacity,ActivityIndicator , StatusBar ,AsyncStorage } from "react-native";
+import {SafeAreaView,View,Text,StyleSheet,FlatList,Image,ScrollView, TouchableOpacity,ActivityIndicator , StatusBar  } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import InputBox from "../../component/InputBox";
 import CheckBox from '@react-native-community/checkbox';
@@ -17,7 +17,7 @@ import Modal from "react-native-modal";
 import Constant from "../../utility/Constant";
 
 import { showToast, showToastLong } from "../../utility/Index";
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputsCompany from "../../utility/InputsCompany";
 import UserProfile from "../../utility/UserProfile";
 import Color from "../../utility/Color";
@@ -25,6 +25,7 @@ import styles from "./style";
 import { color } from "react-native-reanimated";
 
 import { WebView } from 'react-native-webview';
+import { NavigationContainer , createNavigationContainerRef} from '@react-navigation/native';
 
 
 const Types = [
@@ -61,6 +62,7 @@ const personTypes =[
     },
 ]
 const Profile = (props) =>{
+    const navigationRef = createNavigationContainerRef();
 
     const [isLoading , setLoading] = useState(false);
     const [currentDate , setCurrentDate] = useState(new Date());
@@ -156,6 +158,11 @@ const Profile = (props) =>{
         if(!userParse){
             props.navigation.navigate('Login')
         }
+
+        if(userParse?.status == 1 || userParse?.status == 2){           
+            navigationRef.navigate('Cambiar')
+        }
+
         setUserInfo(userParse);
         setForceModal(false);
         if(userParse.status==0){
@@ -669,7 +676,7 @@ const Profile = (props) =>{
                         mode={'date'}
                         locale='es'
                         modal
-                        textColor={'#FFF'}
+                        textColor={'#c9c5c5'}
                         open={isOpen}
                         date={establishedDate}
                         onConfirm={(date) => {
@@ -801,7 +808,7 @@ const Profile = (props) =>{
                     <DatePicker
                         mode={'date'}
                         locale='es'
-                        textColor={'#FFF'}
+                        textColor={'#c9c5c5'}
                         modal
                         open={isOpen}
                         date={date}

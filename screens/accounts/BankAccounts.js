@@ -10,6 +10,8 @@ import ModalComponent from "../../component/ModalComponent";
 import { removeBankApi, userAccounts, userBankFetch } from "../../services/Api";
 import RemoveModal from "../../component/RemoveModal";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 class BankAccounts extends Component {
 
     constructor () {
@@ -41,6 +43,15 @@ class BankAccounts extends Component {
 
     async fetchAccounts(){
         this.setState({isLoading:true});
+        const user = await AsyncStorage.getItem('user')
+        let userParse = JSON.parse(user);
+
+        if(userParse.status == 0){
+            this.setState({isLoading:false});
+
+            this.props.navigation.navigate('profile');
+            return
+        }
         userAccounts().then((response)=>{
             this.setState({isLoading:false});
 
