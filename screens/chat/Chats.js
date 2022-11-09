@@ -1,4 +1,4 @@
-import React, { useEffect , useState  } from "react";
+import React, { useEffect , useState } from "react";
 import {
     SafeAreaView,
     View,
@@ -7,32 +7,19 @@ import {
     Image,
     ActivityIndicator
 } from "react-native";
-import { useFocusEffect } from '@react-navigation/native';
-
 import Color from "../../utility/Color";
 
 import { WebView } from 'react-native-webview';
 
-const WebPage =(props,{navigation}) =>{
+const ChatsPage =(props) =>{
+    
     const [isLoading , setLoading ] = useState(true);
-    const [webUrl , setWebUrl ] = useState('');
-
     useEffect(async ()  =>{ 
-        // console.log({propsprops:props});
-        console.log({propsprops:props.params})
-        console.log("props data::::",JSON.stringify(props));
-       
-        if(props?.route?.params.path){
-            setWebUrl(props?.route?.params.path);
-        }        
+
     },[]);
-    useFocusEffect(()=>{
-        console.log("isFocussedddd::");
-        console.log({propsData:props?.route})
-        if(props && props?.route?.params?.path){
-            setWebUrl(props?.route?.params?.path);
-        }
-    });
+
+ 
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar backgroundColor={'#111'} />
@@ -55,7 +42,7 @@ const WebPage =(props,{navigation}) =>{
                 </View>}
                 
             
-                <WebView source={{ uri:webUrl!=''?webUrl:'https://chatting.page/divisappperu' }} 
+                <WebView source={{ uri: 'https://chatting.page/divisappperu' }} 
                     onLoad={() => {
                         console.log("Onload");
                         setLoading(false);
@@ -68,4 +55,4 @@ const WebPage =(props,{navigation}) =>{
     )
 }
 
-export default WebPage;
+export default ChatsPage;

@@ -145,7 +145,7 @@ const Operations =(props) =>{
                                     
                                 }}
                                 navigateDetail={(item)=>{
-                                    props.navigation.navigate('                                 ',{
+                                    props.navigation.navigate('ProgressDetail',{
                                         'operationId':item.id
                                     })
                                 }}
@@ -189,7 +189,7 @@ const Operations =(props) =>{
                         }} 
 
                         navigateOperationDetail = {(item)=>{
-                            props.navigation.navigate('                                 ',{
+                            props.navigation.navigate('',{
                                 'operationId':item.id
                             })
                             

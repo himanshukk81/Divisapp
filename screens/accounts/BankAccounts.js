@@ -10,6 +10,8 @@ import ModalComponent from "../../component/ModalComponent";
 import { removeBankApi, userAccounts, userBankFetch } from "../../services/Api";
 import RemoveModal from "../../component/RemoveModal";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 class BankAccounts extends Component {
 
     constructor () {
@@ -41,6 +43,15 @@ class BankAccounts extends Component {
 
     async fetchAccounts(){
         this.setState({isLoading:true});
+        const user = await AsyncStorage.getItem('user')
+        let userParse = JSON.parse(user);
+
+        if(userParse.status == 0){
+            this.setState({isLoading:false});
+
+            this.props.navigation.navigate('profile');
+            return
+        }
         userAccounts().then((response)=>{
             this.setState({isLoading:false});
 
@@ -308,13 +319,6 @@ class BankAccounts extends Component {
             <SafeAreaView style={{}}>
                 <StatusBar translucent={false} backgroundColor={Colors.primaryColor} />
 
-                {/* <ModalComponent forceModal={this.state.isVisible} setForceModal={()=>{
-                    this.setState({isVisible:!this.state.isVisible})
-                }}
-                navigateTerms={()=>{
-                    this.props.navigation.navigate('Terms');
-                }}
-                 /> */}
 
                 <RemoveModal 
                     title={'Eliminar Cuenta Bancaria'}
@@ -341,7 +345,7 @@ class BankAccounts extends Component {
                         onPress={()=>{
                                        
                             
-                            this.props.navigation.navigate('                       ');
+                            this.props.navigation.navigate('BankAccount');
                         }}>
                         <View style={[{backgroundColor:Color.green},styles.account1Btn]}>       
                             <Image
@@ -355,7 +359,7 @@ class BankAccounts extends Component {
                     <TouchableOpacity 
                         disabled={false} 
                         onPress={()=>{
-                            this.props.navigation.navigate('             ');
+                            this.props.navigation.navigate('Accounts');
                         }}>
                         <View style={[{backgroundColor:Color.btnBlue},styles.account2Btn]}>
                             <Image

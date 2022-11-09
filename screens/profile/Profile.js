@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {SafeAreaView,View,Text,StyleSheet,FlatList,Image,ScrollView, TouchableOpacity,ActivityIndicator , StatusBar ,TextInput } from "react-native";
+import {SafeAreaView,View,Text,StyleSheet,FlatList,Image,ScrollView, TouchableOpacity,ActivityIndicator , StatusBar  } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import InputBox from "../../component/InputBox";
 import CheckBox from '@react-native-community/checkbox';
@@ -25,6 +25,7 @@ import styles from "./style";
 import { color } from "react-native-reanimated";
 
 import { WebView } from 'react-native-webview';
+import { NavigationContainer , createNavigationContainerRef} from '@react-navigation/native';
 
 
 const Types = [
@@ -61,6 +62,7 @@ const personTypes =[
     },
 ]
 const Profile = (props) =>{
+    const navigationRef = createNavigationContainerRef();
 
     const [isLoading , setLoading] = useState(false);
     const [currentDate , setCurrentDate] = useState(new Date());
@@ -156,6 +158,11 @@ const Profile = (props) =>{
         if(!userParse){
             props.navigation.navigate('Login')
         }
+
+        if(userParse?.status == 1 || userParse?.status == 2){           
+            navigationRef.navigate('Cambiar')
+        }
+
         setUserInfo(userParse);
         setForceModal(false);
         if(userParse.status==0){
@@ -270,10 +277,10 @@ const Profile = (props) =>{
         setLoading(false);
         let status = profileInfo?.created_by?.status;
 
-        // if(status == 1 || status == 2){
-        //     props.navigation.navigate('Cambiar')  
-        // }
-        
+        if(status){
+            setStatus(status);
+        }
+       
        
 
     }
@@ -298,6 +305,7 @@ const Profile = (props) =>{
     const onChangeCompany = (value,index)=>{
         if(index || index==0){
          inputFieldsCompany[index][inputFieldsCompany[index]['key']]=value;
+         console.log("index== 29999"+index);
         
          if(value){
             inputFieldsCompany[index]['erroMessage'] = '';
@@ -665,11 +673,10 @@ const Profile = (props) =>{
                     </Text>
 
                     <DatePicker
-                        theme={'dark'}
                         mode={'date'}
                         locale='es'
                         modal
-                        textColor={'#FFF'}
+                        textColor={'#c9c5c5'}
                         open={isOpen}
                         date={establishedDate}
                         onConfirm={(date) => {
@@ -681,8 +688,6 @@ const Profile = (props) =>{
                         onCancel={() => {
                             setOpen(false)
                         }}
-                        // textColor={Color.black}
-
                     />
 
                     <TouchableOpacity onPress={()=>{
@@ -803,8 +808,7 @@ const Profile = (props) =>{
                     <DatePicker
                         mode={'date'}
                         locale='es'
-                        theme={'dark'}
-                        textColor={'#FFF'}
+                        textColor={'#c9c5c5'}
                         modal
                         open={isOpen}
                         date={date}
@@ -937,6 +941,8 @@ const Profile = (props) =>{
             }
             else if(key=='is_pep'){
 
+                console.log("prfff==");
+                console.log(userProfileInfo?.is_pep);
                 if(userProfileInfo?.is_pep){
                     return userProfileInfo?.is_pep==1?'SI':'No';
                 }
@@ -1212,6 +1218,7 @@ const Profile = (props) =>{
         }
         options.body = JSON.stringify(body);
 
+        console.log({body12000:body});
         const response = await fetch(url, options);
         const jsonResposne = await response.json();
 
@@ -1248,6 +1255,7 @@ const Profile = (props) =>{
     }
     const saveContactData = async ()=>{
 
+        console.log("profile======"+profile);
         // if(profile==1){
             let errorMessage2 = false;
             for(let i=0;i<inputFields.length;i++){

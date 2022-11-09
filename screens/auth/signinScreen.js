@@ -9,7 +9,9 @@ import {
     StyleSheet,
     ActivityIndicator
 } from "react-native";
+
 import { useNavigation } from "@react-navigation/core";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import CheckBox from '@react-native-community/checkbox';
 import { Fonts, Colors, Sizes } from "../../constants/styles";
@@ -33,7 +35,7 @@ import { showToast, showToastLong } from "../../utility/Index";
 
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import Color from "../../utility/Color";
 
 
@@ -214,8 +216,6 @@ const Signin2 =(props) =>{
         const response = await fetch(url, options);
         const jsonResposne = await response.json();
 
-        console.log({jsonResposnejsonResposne:jsonResposne});
-
         if(jsonResposne.display_message){
             showToast(jsonResposne.display_message);
             return;
@@ -271,6 +271,7 @@ const Signin2 =(props) =>{
 
     async function storeData(response,data){
         setLoading(true);
+        console.log({responseUSer:response});
         await AsyncStorage.setItem(
             'user',JSON.stringify(response.user),
         );
@@ -292,10 +293,24 @@ const Signin2 =(props) =>{
         setTimeout(()=>{
             setLoading(false);
             // props.navigation.navigate(' ');
-            props.navigation.reset({
-                index: 0,
-                routes: [{ name: ' ' }]
-           })
+
+            props.navigation.navigate(' ');
+
+            if(response?.user?.status == 0){
+                
+                // props.navigation.navigate('profile');
+                props.navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'profile' }]
+                })
+            }
+            else{
+                props.navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Cambiar' }]
+                })
+            }
+            
         },1800);
     }
     async function forgotPassword(){
@@ -375,6 +390,7 @@ const Signin2 =(props) =>{
             LoginManager.logInWithPermissions(['public_profile','email']).then(
                 login => {
 
+                    
                   if (login.isCancelled) {
                     console.log('Login cancelled');
                   } else {

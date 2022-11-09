@@ -1,6 +1,6 @@
 import Constants from '../utility/Constant';
-import { BackHandler } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BackHandler ,AsyncStorage } from 'react-native';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 async function callApi(urlString, body, methodType) {
   console.log('-----------AXIOS  Api request is----------- ');
@@ -21,12 +21,7 @@ async function callApi(urlString, body, methodType) {
      options = {
       method: methodType,
       headers:{
-        // Accept: 'application/json',
-        // 'Content-Type': 'application/json',
-        // 'Authorization': accessToken,
-        'Authorization': 'Bearer ' + accessToken
-        
-        // 'Accept': 'application/json',
+        'Authorization': 'Bearer ' + accessToken        
       },
     };
   }
@@ -92,8 +87,6 @@ async function callFetchApi(urlString, body, methodType) {
       options.body = JSON.stringify(body)
     }
   }
-  console.log("url="+urlString);
-  console.log({options_22222:options});
   try {
     const response = await fetch(urlString, options);
     console.log("ss0999");
@@ -109,6 +102,7 @@ async function callFetchApi(urlString, body, methodType) {
       return jsonResposne;
     }
   } catch (error) {
+    console.log("erroddr:",error);
     return error;
   }
 }
@@ -212,4 +206,15 @@ export async function faqCategories() {
 export async function faqQuestions() {
   console.log('----------FAQ Questions------------------');
   return callFetchApi(Constants.API_URL + 'faq-questions',{}, 'GET');
+}
+
+export async function updatePass(parms) {
+  console.log('----------Change Password------------------');
+  console.log({parms:parms});
+  return callApi(Constants.API_URL + 'password_update',parms, 'POST');
+}
+
+export async function getRates() {
+  console.log('----------Get Rates------------------');
+  return callApi(Constants.API_URL + 'rates',{}, 'GET');
 }

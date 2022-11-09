@@ -25,7 +25,7 @@ const ProgressDetail =(props) =>{
                                     {id:1,title:'Política de Privacidad',icon:require('../../assets/images/icon/modal/user.png'),url:'https://www.divisapp.com/soporte/politica-privacidad/'},
                                     {id:1,title:'Libro de Reclamaciones',icon:require('../../assets/images/icon/modal/open-book.png'),url:'https://www.divisapp.com/soporte/libro-de-reclamaciones/'},
                                     {id:1,title:'Ayúdanos a Mejorar',icon:require('../../assets/images/icon/modal/like.png'),url:'https://www.divisapp.com/soporte/ayudanos-a-mejorar/'},
-                                    {id:1,title:'Preguntas Frecuentes',icon:require('../../assets/images/icon/modal/question.png'),url:'https://zzzdevfrontend.divisapp.com/faq-questions'}
+                                    {id:1,title:'Preguntas Frecuentes',icon:require('../../assets/images/icon/modal/question.png'),url:'faq'}
                                 ]}
 
 
@@ -414,8 +414,14 @@ const ProgressDetail =(props) =>{
                     setVisible(false);
                 }}
                 onLinkClick={(url)=>{
-                    setWebUrl(url);
-                    setVisible(false);
+                    if(!url.includes('https')){
+                        props.navigation.navigate(url);
+                    }
+                    else{
+                        setWebUrl(url);
+                        setVisible(false);
+                    }
+                    
                 }}
                 onDownloadLink={(url)=>{
                     console.log("url::"+url)
