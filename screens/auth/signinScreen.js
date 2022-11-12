@@ -37,6 +37,10 @@ import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-si
 
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import Color from "../../utility/Color";
+import { NavigationContainer , createNavigationContainerRef} from '@react-navigation/native';
+
+// const navigationRef = createNavigationContainerRef();
+// export const navigationRef = createNavigationContainerRef()
 
 
 const Logo = () => {
@@ -57,6 +61,7 @@ const SignText = () => {
 }
 
 const Signin2 =(props) =>{
+    const navigationRef = createNavigationContainerRef()
     const [signup, showSignup] = useState(false);
     const [forgot, showForgot] = useState(false);
 
@@ -292,25 +297,10 @@ const Signin2 =(props) =>{
         );        
         setTimeout(()=>{
             setLoading(false);
-            // props.navigation.navigate(' ');
-
-            props.navigation.navigate(' ');
-
-            if(response?.user?.status == 0){
-                
-                // props.navigation.navigate('profile');
-                props.navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'profile' }]
-                })
-            }
-            else{
-                props.navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Cambiar' }]
-                })
-            }
-            
+            props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'Tabs' }]
+            })
         },1800);
     }
     async function forgotPassword(){

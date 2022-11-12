@@ -1,4 +1,3 @@
-
 import React,{ useEffect, useState } from 'react';
 import {View, useWindowDimensions,StyleSheet,Platform,FlatList,Text,Image, TouchableOpacity,Alert, ImageBackground} from 'react-native';
 import { NavigationContainer , createNavigationContainerRef} from '@react-navigation/native';
@@ -598,12 +597,6 @@ const App =  ({props}) => {
                          >
                         {(userInfo && userInfo?.id) ? (
                         <>
-
-                         
-                          {/* <HomeStack.Screen name="ExchangeRate" component={ ExchangeRate } 
-                                        options={{
-                                                    headerShown:false
-                          }} /> */}
 
                           <HomeStack.Screen name=" " component={ Tabs } options={{
                                       headerShown:true

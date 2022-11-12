@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, Image, TouchableOpacity, StyleSheet, Dimensions, BackHandler } from "react-native";
+import { Text, View, Image, TouchableOpacity, StyleSheet, BackHandler } from "react-native";
 import HomeScreen from "../screens/home/homeScreen";
 import StatisticScreen from "../screens/statistic/statisticScreen";
 import PortfolioScreen from "../screens/portfolio/portfolioScreen";
