@@ -1,125 +1,55 @@
 import React, { useEffect, useState } from "react";
-import {SafeAreaView,View,Text,StyleSheet,FlatList,Image,ScrollView, TouchableOpacity,ActivityIndicator , StatusBar  } from "react-native";
+import {SafeAreaView,View,Text,FlatList,Image,ScrollView, TouchableOpacity,ActivityIndicator , StatusBar  } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import InputBox from "../../component/InputBox";
 import CheckBox from '@react-native-community/checkbox';
 import Inputs from "../../utility/Inputs";
-
-import {Picker} from '@react-native-picker/picker';
 import { Dropdown } from 'react-native-element-dropdown';
 import DatePicker from 'react-native-date-picker'
-
 import moment from 'moment'
-
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-
-import Modal from "react-native-modal";
 import Constant from "../../utility/Constant";
-
-import { showToast, showToastLong } from "../../utility/Index";
+import { showToast } from "../../utility/Index";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputsCompany from "../../utility/InputsCompany";
 import UserProfile from "../../utility/UserProfile";
 import Color from "../../utility/Color";
 import styles from "./style";
-import { color } from "react-native-reanimated";
-
 import { WebView } from 'react-native-webview';
-import { NavigationContainer , createNavigationContainerRef} from '@react-navigation/native';
+import {createNavigationContainerRef} from '@react-navigation/native';
+import Types from "../../utility/Types";
+import { PersonTypes } from "../../utility/PersonTypes";
+import RenderImageOption from "../../component/ProfileComponent/RenderImageOption";
+import RenderMoreInfo from "../../component/ProfileComponent/RenderMoreInfo";
+import RenderEditConfirm from "../../component/ProfileComponent/RenderEditConfirm";
+import RenderModal from "../../component/ProfileComponent/RenderModal";
 
-
-const Types = [
-
-    {
-        'id':1,
-        'label':'DNI',
-        'value':'DNI' 
-    },
-    {
-        'id':2,
-        'label':'CE',
-        'value':'CE' 
-    },
-    {
-        'id':3,
-        'label':'PASAPORTE',
-        'value':'PASAPORTE' 
-    },
-    
-];
-
-const personTypes =[
-
-    {
-        'id':1,
-        'label':'Persona',
-        'value':'Persona' 
-    },
-    {
-        'id':2,
-        'label':'Empresa',
-        'value':'Empresa' 
-    },
-]
 const Profile = (props) =>{
     const navigationRef = createNavigationContainerRef();
-
     const [isLoading , setLoading] = useState(false);
     const [currentDate , setCurrentDate] = useState(new Date());
-
     const [identificationTypes , setTypes] = useState(Types);
-
-    const [personTypes2 ,setPerson] = useState(personTypes);
-
+    const [personTypes2 ,setPerson] = useState(PersonTypes );
     const [moreInfoModal , showMoreInfo] = useState(false);
-    const [isSelected, setSelection] = useState(false);
     const [inputFields ,setInputFields] = useState(Inputs);
-
     const [inputFieldsCompany,setCompanyFields] = useState(InputsCompany);
     const [date, setDate] = useState(new Date());
-
     const [establishedDate, setEstablishedDate] = useState(new Date());
     const [isOpen, setOpen] = useState(false)
     const [profile, setProfile] = useState(1)
     const [identificacion, setIdentification] = useState(1)
-
     const [companyIdentification , setCompanyIdentification] = useState('');
-
     const [pep,setPep] = useState(false);
-    const [moreInformation , showMoreInformation] = useState(false);
-
     const [imageModal, showImageModal] = useState(false);
-
     const [photo, setPhotoURI] = useState(null);
-    
     const [imagePath, setImagePath] = useState(null);
-
     const [userInfo , setUserInfo] = useState();
-
     const [accessToken , setToken] = useState('');
-
     const [forceModal, setForceModal] = useState(false);
-
     const [userStatus, setStatus] = useState('');
-
     const [userProfileInfo, setProfileInfo] = useState();
-
     const [companyAdditional, setCompanyAdditional] = useState(false);
-
-    const [name, setName] = useState();
-    const [lastname_dad, setLastName] = useState();
-    const [cell_phone, setCellPhone] = useState();
-
-    const [profileCompanies , setProfileCompanies] = useState();
-
     const [isLoadingSplash , setLoadingSplash] = useState(true);
-
-    const [profileView , showProfileView] = useState(false);
-
     const [userEdit , setEditProfile] = useState(false);
-
-    const [company_status , companyUpdated] = useState(false);
-
     const [editConfirm , showEditConfirm ] = useState(false);
     const [webViewVisible ,setWebview] = useState(false);
     useEffect(() =>{
@@ -129,11 +59,6 @@ const Profile = (props) =>{
 
     useEffect(()=>{
     },[props.navigation]);
-
-    function hideSpinner(){
-        setLoading(false);
-    }
-
 
     const resetProfile = ()=>{
         setCompanyAdditional(false);
@@ -302,6 +227,7 @@ const Profile = (props) =>{
         }
         
     }
+
     const onChangeCompany = (value,index)=>{
         if(index || index==0){
          inputFieldsCompany[index][inputFieldsCompany[index]['key']]=value;
@@ -318,302 +244,6 @@ const Profile = (props) =>{
         },1000);
         }
     }
-
-    const selectImageType = async (type) => {
-        showImageModal(false);
-        if(type==1){
-            const result = await launchImageLibrary();
-            setPhotoURI(result['assets'][0]['uri'])
-            setImagePath(result['assets']);
-            setLoading(true);
-            setTimeout(()=>{
-                uploadImage(result['assets']);
-            },500)
-        }
-        else if(type==2){
-            const result = await launchCamera(); 
-            setPhotoURI(result['assets'][0]['uri'])
-            setImagePath(result['assets']);
-            setLoading(true);
-            setTimeout(()=>{
-                uploadImage(result['assets']);
-            },500)
-        }
-    }
-
-    const uploadImage = async (path)=>{
-
-        let index = inputFields.findIndex(x => x.type === 'image');
-
-        inputFields[index]['erroMessage'] = '';
-
-        setInputFields(inputFields);
-        
-        let url = Constant.API_URL;
-
-        url +='profiles/media';
-        
-        // url +='operation-transfers/media';
-
-        var photo = {
-            uri: path[0]['uri'],
-            type: 'image/jpeg',
-            name: 'photo.jpg',
-        };
-
-        var form = new FormData();
-        form.append("file", photo);
-        fetch(
-        url,
-        {
-            body: form,
-            method: "POST",
-            headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': 'Bearer ' + accessToken
-            }
-        }
-        ).then((response) => response.json())
-        .catch((error) => {
-            setLoading(false);
-            alert("ERROR " + error)
-        })
-        .then((responseData) => {
-            setLoading(false);
-            setImagePath(responseData?.name);
-        }).done();     
-    }
-    const RenderImageOption=()=> {
-        return (
-          <View style={{backgroundColor:'white'}}>
-            <Modal isVisible={imageModal}
-                onBackdropPress={() => {showImageModal(false)}}
-             >
-            <View style={styles.centeredView} >
-             <View style={styles.modalView}>
-                <View style={styles.imageBtn}>
-                    <TouchableOpacity onPress={()=>{
-                        selectImageType(1);
-                    }}>
-                        <Text style={styles.label}>Upload From Gallery</Text>
-                    </TouchableOpacity>  
-                </View>
-                
-                <View style={styles.imageBtn}>
-                    <TouchableOpacity onPress={()=>{
-                        selectImageType(2);
-                        }}>
-                        <Text style={styles.label}>Upload From Camera</Text>
-                    </TouchableOpacity>  
-                </View>
-              </View>
-            </View>  
-            </Modal>
-          </View>
-        );
-    }
-    const Logo = () => {
-        return (
-            <Image source={require('../../assets/images/logo.png')}
-                style={{ alignSelf: 'center', width: 140.0, height: 90.0, marginBottom: 1 }}
-                resizeMode="contain"
-            />
-        )
-    }
-
-    const navigateTerms = () =>{
-        props.navigation.navigate('Terms')        
-    }
-    const RenderModal =()=> {
-        return (
-          <View style={{backgroundColor:'white',flex:1,alignItems:'center',justifyContent:'center'}}>
-            <Modal isVisible={forceModal}
-                onBackdropPress={() => {}}>
-                    <View style={styles.centeredView}>
-                      <View style={styles.modalView2}>
-                        <View>
-                            <Logo />
-                            <Text style={[styles.label,{fontWeight:'bold',fontSize:25}]}>¡Bienvenido!</Text>
-
-                            <View style={{paddingHorizontal:40,paddingVertical:10}}>
-                                <Text style={styles.subTitlelabel}>
-                                    Para realizar operaciones le agradecemos actualizar sus datos personales. Estos son validados con su documento de identidad y será HABILITADO para registrar operaciones. Una vez validados no podrá cambiarlos.
-                                </Text>
-                            </View>
-                            <View style={{paddingHorizontal:40,paddingVertical:10}}>    
-                                <Text style={styles.subTitlelabel}>
-                                * De igual manera le agradecemos verificar su correo electrónico para validarlo.
-
-                                </Text>
-                            </View>
-
-                            <TouchableOpacity onPress={()=>{
-                                setForceModal(false);
-                            }}>
-                            
-
-                                <View style={{
-                                    backgroundColor:Color.theme,
-                                    marginHorizontal:50,
-                                    paddingVertical:10,
-                                    marginBottom:40,
-                                    borderRadius:10,
-                                    marginVertical:20
-                                } }>
-                                    <Text style={[styles.label,{color:'#FFF'}]}>Comenzar a Cambiar</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                            <View style={{paddingHorizontal:23}}>
-                                <Text style={styles.subTitlelabel}>
-                                    <Text style={styles.label}>NOTA:</Text>
-                                    Peruana de Cambio de Divisas S.A.C. - Divisapp, es una empresa comprometida con las normativas de Prevención de Lavado de Activos y Financiamiento del Terrorismo (PLAFT). Para mayor información consulte nuestros
-                                    
-                                    <Text>{' '}</Text>
-                                    <Text style={{textDecorationLine:'underline',color:'#ee2737',padding:8}} onPress={()=>{
-                                        navigateTerms();
-                                    }}>Términos y Condiciones</Text>
-                                </Text>
-                            </View>
-
-                        </View>
-                       </View> 
-                    </View>
-                 
-                 
-            </Modal>
-          </View>
-        );
-    }
-
-    const RenderMoreInfo =()=> {
-        return (
-          <View style={{backgroundColor:'white',flex:1,alignItems:'center',justifyContent:'center'}}>
-            <Modal isVisible={moreInfoModal}
-                onBackdropPress={() => {
-                    showMoreInfo(false)                     
-                }}>
-                    <View style={styles.centeredView}>
-                      <View style={styles.modalView3}>
-
-                        <View style={{margin:8,alignSelf:'flex-end'}}>
-                                <TouchableOpacity
-                                onPress={()=>{
-                                    showMoreInfo(false)     
-                                    }}
-                                >
-                                    <Image source={require('../../assets/images/icon/close.png')}
-                                            style={{ height: 17.0, width: 17.0 }}
-                                            resizeMode="contain"
-                                    />
-                        
-                                </TouchableOpacity>
-                        </View>  
-                        <View>
-                            <View style={{alignSelf:'center'}}>
-                                <Image source={require('../../assets/images/info.png')}
-                                        style={{ height: 35.0, width: 35.0 }}
-                                        resizeMode="contain"
-                                />
-                            </View>
-
-                            <Text style={[styles.label,{fontWeight:'bold',fontSize:19}]}>¿Qué es PEP?</Text>
-
-                            <View style={{paddingHorizontal:6,paddingVertical:10}}>
-                                <Text style={styles.subTitlelabel}>
-                                    De acuerdo a la normativa del Sistema de Prevención de Lavado de Activos y del Financiamiento del Terrorismo, son las Personas naturales, nacionales o extranjeras, que cumplen o que en los últimos cinco (5) años hayan cumplido funciones públicas destacadas o funciones prominentes en una organización internacional, sea en el territorio nacional o extranjero, y cuyas circunstancias financieras puedan ser objeto de un interés público. La relación de los cargos o funciones dentro de la lista PEP se encuentra en la Resolución SBS N° 4349-2016
-                                </Text>
-                            </View>
-                        </View>
-                       </View> 
-                    </View>
-                 
-                 
-            </Modal>
-          </View>
-        );
-    }
-
-    const RenderEditConfirm =()=> {
-        return (
-          <View style={{backgroundColor:'white',flex:1,alignItems:'center',justifyContent:'center'}}>
-            <Modal isVisible={editConfirm}
-                onBackdropPress={() => {
-                    showEditConfirm(false)                     
-                }}>
-                    <View style={styles.centeredView}>
-                      <View style={styles.modalView4}>
-
-                        <View style={{margin:8,alignSelf:'flex-end'}}>
-                                <TouchableOpacity
-                                onPress={()=>{
-                                        showEditConfirm(false)          
-                                    }}
-                                >
-                                    <Image source={require('../../assets/images/icon/close.png')}
-                                            style={{ height: 17.0, width: 17.0 }}
-                                            resizeMode="contain"
-                                    />
-                        
-                                </TouchableOpacity>
-                        </View>  
-                        <View>
-                            <View style={{alignSelf:'center'}}>
-                                <Image source={require('../../assets/images/info.png')}
-                                        style={{ height: 50.0, width: 50.0 }}
-                                        resizeMode="contain"
-                                />
-                            </View>
-
-                            <Text style={[styles.label,{fontWeight:'bold',fontSize:19}]}>Estimado Usuario</Text>
-
-                            <View style={{paddingHorizontal:6,paddingVertical:10}}>
-                                <Text style={styles.subTitlelabel}>
-                                    Usted podrá modificar los datos de su perfil hasta que estos sean <Text style={{fontWeight:'bold'}}>validados</Text> con su documento de identidad. Luego de ello le agradecemos comunicarse con soporte@divisapp.com.
-                                
-                                </Text>
-                            </View>
-
-
-
-
-                            <View style={{paddingHorizontal:6,paddingVertical:10}}>
-                                <View style={{backgroundColor:Color.theme,borderRadius:8,marginHorizontal:60, padding:10,marginVertical:5}}>
-                                    <TouchableOpacity 
-                                        onPress={()=>{
-                                            showEditConfirm(false);
-                                            setEditProfile(true);
-                                        }}>
-                                        <Text style={{color:'#FFF',textAlign:'center'}}>Entendido</Text>
-                                    </TouchableOpacity> 
-                                </View>  
-
-                                <View style={{backgroundColor:Color.bgGray,borderRadius:8,marginHorizontal:60, padding:10,marginVertical:5}}>
-                                    <TouchableOpacity 
-                                        onPress={()=>{
-                                            showEditConfirm(false);
-                                        }}>
-                                        <Text style={{color:'#444',textAlign:'center'}}>Cerrar</Text>
-                                    </TouchableOpacity> 
-                                </View>    
-                            </View>
-
-                            <View style={{paddingHorizontal:6,paddingVertical:5}}>
-                                <Text style={styles.subTitlelabel}>
-                                <Text style={{fontWeight:'bold'}}>NOTA: </Text>
-                                    Peruana de Cambio de Divisas SAC - Divisapp, es una empresa comprometida con las normativas de Prevención de Lavado de Activos y Financiamiento del Terrorismo (PLAFT). Para mayor información consulte nuestros Términos y Condiciones.
-                                </Text>
-                            </View>
-                        </View>
-                       </View> 
-                    </View>
-                 
-                 
-            </Modal>
-          </View>
-        );
-    }
-
 
     const renderSelect = (item) => {
         if(item.label){
@@ -960,9 +590,8 @@ const Profile = (props) =>{
              
     }
 
-
      // getValue of key
-     const getValueCompanyKey=(key,type)=>{
+    const getValueCompanyKey=(key,type)=>{
 
         const profileInfo = userProfileInfo.profile_companies[0];
 
@@ -1222,10 +851,6 @@ const Profile = (props) =>{
         const response = await fetch(url, options);
         const jsonResposne = await response.json();
 
-        
-        if(companyAdditional){
-            companyUpdated(true);
-        }
         setLoading(false);
         if(jsonResposne.data){
                 
@@ -1254,9 +879,6 @@ const Profile = (props) =>{
         }
     }
     const saveContactData = async ()=>{
-
-        console.log("profile======"+profile);
-        // if(profile==1){
             let errorMessage2 = false;
             for(let i=0;i<inputFields.length;i++){
                 if(i==0){  
@@ -1356,8 +978,7 @@ const Profile = (props) =>{
             </View>
         )
     }
-
-    // get identification value ..
+    // get Identification value.
     const getIdentificationValue =(type)=>{
             if(identificacion){
                 let index=-1;
@@ -1423,10 +1044,10 @@ const Profile = (props) =>{
             
             {!webViewVisible && 
             <View>
-            <RenderImageOption />
-            <RenderMoreInfo />
-            <RenderModal />
-            <RenderEditConfirm />
+                <RenderImageOption />
+                <RenderMoreInfo /> 
+                <RenderModal />
+                <RenderEditConfirm />
             
             {!isLoadingSplash ?<View>
                 <ScrollView>

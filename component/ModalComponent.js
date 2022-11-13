@@ -9,7 +9,6 @@ export default class InputBox extends React.Component {
         super()
     }
     navigateTerms (){
-        // this.props.navigation.navigate('Terms')        
         this.props.navigateTerms();        
     }
     render() {

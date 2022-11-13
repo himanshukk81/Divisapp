@@ -2,24 +2,23 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import GraphStacks from './GraphStack';
 import HomeStacks from './HomeStack';
 import OperationStacks from './OperationStack';
-import ProfileStacks from './ProfileStacks';
 import WebPageStacks from './WebPageStacks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomTabBar from '../../navigation/BottomTabBar';
 import React,{ useEffect, useState } from 'react';
+import Profile from '../../screens/profile/Profile';
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = () =>{
+const Tabs =  () =>{
   const [userInfo, setUserInfo] = useState(null);
 
-    useEffect(()=>{
-      // const user = await AsyncStorage.getItem('user')
-      // const accessToken = await AsyncStorage.getItem('access_token');
-      // let userParse = JSON.parse(user);
+    useEffect( async ()=>{
+      const user = await AsyncStorage.getItem('user')
+      let userParse = JSON.parse(user);
+      setUserInfo(userParse);
+    },[]);
 
-      // setUserInfo(userParse);
-    });
     return(
         <Tab.Navigator
             initialRouteName={(userInfo?.status==1 || userInfo?.status==2)?'Cambiar':'profile'}
@@ -46,15 +45,14 @@ const Tabs = () =>{
             
             >
             <Tab.Screen
-                name="profile"
-                component={ProfileStacks}
+                name="Profile"
+                component={Profile }
                 listeners={({ navigation }) => ({
                   tabPress: (e) => {
                     // Prevent default action
                     e.preventDefault();
                     propsDrawer.navigation.navigate('BankAccounts');
-                    // Do something with the `navigation` object
-                    // navigation.navigate("PhotoNavigation"); // Here!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                   
                   },
                 })}
                 options={{  
@@ -89,14 +87,10 @@ const Tabs = () =>{
                 component={HomeStacks}
                 options={{
                   tabBarLabel: 'Cambiar',
-                  
-
                   tabBarIconPath:require('../../assets/images/bottomIcon/dollar.png'),
-               
                     headerShown:false,
                     tabBarHideOnKeyboard:true,
                 }}
-                
             />
 
             <Tab.Screen
@@ -105,7 +99,6 @@ const Tabs = () =>{
                 options={{
                   tabBarLabel: 'T. Cambio',
                   tabBarIconPath:require('../../assets/images/bottomIcon/statistic.png'),
-                 
                     headerShown:false,
                     tabBarHideOnKeyboard:true,
                 }}

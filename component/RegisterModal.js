@@ -6,7 +6,6 @@ import Color from "../utility/Color";
 import { Dropdown } from 'react-native-element-dropdown';
 import CheckBox from '@react-native-community/checkbox';
 import { registerForOperations } from "../services/Api";
-// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { showToast } from "../utility/Index";
 
 export default class RegisterModal extends React.Component {
@@ -36,13 +35,11 @@ export default class RegisterModal extends React.Component {
             editRegistrationOperation:false,
             userInfo:{}
         }
-
-        console.log({props50:props});
     }
+
     navigateTerms (props){
         this.props.navigateTerms();    
     }
-
     updateRequestInfo(requestInfo){
         this.setState({
             operationRequestInfo:requestInfo,
@@ -191,10 +188,7 @@ export default class RegisterModal extends React.Component {
         }
         this.updateRequestInfo(this.state.operationRequestInfo);
     }
-    componentDidMount(){
-       
-    }
-   
+
     renderSelect(item) {
         if(item.label){
             return (
@@ -224,6 +218,7 @@ export default class RegisterModal extends React.Component {
         }
         return true;
     }
+    
     render() {
         // const {operationData} = props;
         return (

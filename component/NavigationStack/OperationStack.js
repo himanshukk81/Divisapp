@@ -1,4 +1,3 @@
-
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Accounts from '../../screens/accounts/Accounts';
 import BankAccount from '../../screens/accounts/BankAccount';
@@ -11,12 +10,16 @@ import Profile from '../../screens/profile/Profile';
 import TermsPage from '../../screens/profile/TermsPage';
 import WebPage from '../../screens/web/WebPage';
 
+import React,{ useEffect, useState } from 'react';
+import Operations from '../../screens/operations/Operations';
+import ProgressDetail from '../../screens/operations/progressDetail';
+
 const OperationStack = createNativeStackNavigator();
 
 const  OperationStacks = () =>{
     return(
       <OperationStack.Navigator>
-          <OperationStack.Screen name="Operaciones" component={ Operations } 
+          <OperationStack.Screen name="Operaciones" component={ Operations  } 
                         options={{
                                     headerShown:false
           }} />

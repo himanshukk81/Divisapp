@@ -9,7 +9,6 @@ import { updateOperationTransfer, uploadMedia } from "../services/Api";
 import { showToastLong } from "../utility/Index";
 
 const OperationImageModal =(props) =>{ 
-
     const [comments, setComments] = useState('');
     const [imageModal, showImageModal] = useState(false);
     const [photo, setPhotoURI] = useState(null);
@@ -31,51 +30,7 @@ const OperationImageModal =(props) =>{
         setPhotoURI(props.data.preview)
     }
 
-    const RenderImageOption=()=> {
-        return (
-          <View style={{backgroundColor:'white'}}>
-            <Modal isVisible={imageModal}
-                onBackdropPress={() => {showImageModal(false)}}
-             >
-            <View style={styles.centeredView} >
-             <View style={styles.modalView}>
-                <View style={styles.imageBtn}>
-                    <TouchableOpacity onPress={()=>{
-                        selectImageType(1);
-                    }}>
-                        <Text style={styles.label}>Upload From Gallery</Text>
-                    </TouchableOpacity>  
-                </View>
-                
-                <View style={styles.imageBtn}>
-                    <TouchableOpacity onPress={()=>{
-                        selectImageType(2);
-                        }}>
-                        <Text style={styles.label}>Upload From Camera</Text>
-                    </TouchableOpacity>  
-                </View>
-              </View>
-            </View>  
-            </Modal>
-          </View>
-        );
-    }
-    
-    const openImageGallery = async () =>{
-        let options ={
-            'quality':0.5
-        }
-        const result = await launchImageLibrary(options);
-        console.log("length====");
-        console.log(JSON.stringify(result));
-        setPhotoURI(result['assets'][0]['uri'])
-        setImagePath(result['assets']);
-    }
-
     const attachProof = async () =>{
-        // let params = {
-        //     'file':imagePath
-        // }
         const accessToken = await AsyncStorage.getItem('access_token');
         setLoading(true);
         console.log({photophoto:photo});
@@ -112,14 +67,6 @@ const OperationImageModal =(props) =>{
             showToastLong('Something went wrong.');
             console.log('error>>>>>', error);
         });
-        
-        // uploadMedia(params).then((response)=>{
-        //     addTransfer(response.name);
-        // }).catch(error=>{
-        //     setLoading(false);
-        //     showToastLong('Something went wrong.');
-        //     console.log({error:error});
-        // })
     }
 
     const addTransfer = async (url) =>{

@@ -10,6 +10,8 @@ import Profile from '../../screens/profile/Profile';
 import TermsPage from '../../screens/profile/TermsPage';
 import WebPage from '../../screens/web/WebPage';
 
+import React,{ useEffect, useState } from 'react';
+
 const GraphStack = createNativeStackNavigator();
 const  GraphStacks = () =>{
     return(

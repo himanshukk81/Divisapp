@@ -8,10 +8,6 @@ export default class ModalCancelOperation extends React.Component {
     constructor(props){
         super()
     }
-    // navigateTerms (){
-    //     // this.props.navigation.navigate('Terms')        
-    //     this.props.navigateTerms();        
-    // }
     render() {
         return (
           <View style={{backgroundColor:'white',flex:1,alignItems:'center',justifyContent:'center'}}>

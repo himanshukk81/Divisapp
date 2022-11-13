@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { Text, TouchableOpacity, View,ActivityIndicator, SafeAreaView, StatusBar, Image, StyleSheet, FlatList,Animated,Easing,TextInput } from "react-native";
+import { Text, TouchableOpacity, View,ActivityIndicator, SafeAreaView, StatusBar, Image, FlatList,Animated,TextInput } from "react-native";
 import { withNavigation } from 'react-navigation';
 import { Fonts, Colors, Sizes } from "../../constants/styles";
 import Color from "../../utility/Color";
 import RegisterModal from "../../component/RegisterModal";
 import { ScrollView } from "react-native-gesture-handler";
-import { calculateCurrency, getProfileInfo, operations } from "../../services/Api";
-import { showToast, showToastCenter, showToastLong } from "../../utility/Index";
-import { useDispatch } from 'react-redux';
+import { calculateCurrency, getProfileInfo } from "../../services/Api";
+import { showToastLong } from "../../utility/Index";
+import styles from "./styles";
 
 class HomeScreen extends Component {
     
@@ -81,9 +81,6 @@ class HomeScreen extends Component {
     }
 
     componentDidMount(){
-        // const selector = useSelector(state => state.calculator)
-        // const dispatch = useDispatch();
-
         this.animatedValue1.addListener(({ value }) => {
             this.setState({currentValue:value});
         });
@@ -92,9 +89,7 @@ class HomeScreen extends Component {
     }
     // calculate currency 
     async getUserProfile(){
-
         getProfileInfo().then((response)=>{
-            let profiles = [];
             console.log({response2:response});
             let profileInfo = response.data;
             let statistics = this.state.staticsImgs;
@@ -111,16 +106,14 @@ class HomeScreen extends Component {
                     subValue:profileInfo && profileInfo['user_stadistic']?profileInfo['user_stadistic'][statistics[i]['subKey']]:0,
                 });
             }
-           
+
            this.setState({MyStatics:this.state.MyStatics,profileInfo:profileInfo});
 
         }).catch((error)=>{
             console.log({error:error});
-            // this.setState({isLoadingCurrency:false});
         });
-
-       
     }
+
     getValue = (key) =>{
         let value = '';
         for(let key2 in this.state.dataCurrency){
@@ -158,8 +151,8 @@ class HomeScreen extends Component {
     }
 
     operationRegister = () =>{
-        console.log("data==");
     }
+    
     updateValue = (dataCurrency) =>{
         for(const key in dataCurrency){
             for(const key2 in this.state.dataCurrency){
@@ -189,6 +182,7 @@ class HomeScreen extends Component {
             currencyChangeTimeout: setTimeout(() => {this.calCurrency()}, timeout)
         })
     }
+    
     renderItem = ({ item }) => (
 
         <TouchableOpacity
@@ -230,9 +224,7 @@ class HomeScreen extends Component {
             </View>
         </TouchableOpacity>
     );
-     
-    
-    
+
     animate () {
         if (this.state.currentValue >= 90) {
             Animated.spring(this.animatedValue1, {
@@ -252,14 +244,9 @@ class HomeScreen extends Component {
         return;
        
     }
-    
-    
-    render() {
-       
-        const {coupon_status , couponexpire_txt , buy_rate , sell_rate ,discount_on ,old_code , old_buy_rate , old_sell_rate , discount_txt , code , savings} = this.state.dataCurrency;
 
-        // console.log({currencyData:cc_enable});
-        // console.log({ddd:this.state.dataCurrency});
+    render() {
+        const {coupon_status , couponexpire_txt , buy_rate , sell_rate ,discount_on ,old_code , old_buy_rate , old_sell_rate , discount_txt , code , savings} = this.state.dataCurrency;
         return (
             <SafeAreaView style={{backgroundColor:Colors.whiteColor }}>
                 <StatusBar translucent={false} backgroundColor={Colors.primaryColor} />
@@ -268,7 +255,6 @@ class HomeScreen extends Component {
                     <ActivityIndicator size="large" color={Color.theme}  />
                 </View>}
 
- 
                <RegisterModal 
                     registerData={this.state.dataCurrencyResponse}    
                     isVisible ={this.state.isVisible}
@@ -310,7 +296,6 @@ class HomeScreen extends Component {
                         
                     }}
                />
-
                 <ScrollView>
                     <View >
                         <View style={{marginBottom:8}}></View>
@@ -365,27 +350,19 @@ class HomeScreen extends Component {
 
                         <View style={styles.segmentTabs}>
                             <View >
-                                {/* <TouchableOpacity onPress={()=>{
-                                    // this.setState({activeDivTab:0})
-                                }}> */}
                                     <View style={[this.state.dataCurrency.type==1?[styles.activeTabDivisSeg]:[styles.inActiveTabDivisSeg],{borderTopLeftRadius:10,borderBottomLeftRadius:10,borderRightWidth:1,borderColor:'#444' }]}>
                                         <Text style={[{fontSize:16},this.state.dataCurrency.type==1?{fontWeight:'bold',color:'#FFF'}:{color:'#444'}]}>Divisapp Vende</Text>
                                         <Text style={[this.state.dataCurrency.type==1?{fontSize:17,fontWeight:'bold',color:'#FFF'}:{fontSize:17,color:'#444'}]}>S/ {sell_rate}</Text>
                                         {old_sell_rate!=null && <Text style={[{textDecorationLine: 'line-through'},this.state.dataCurrency.type==1?{fontWeight:'bold',color:'#FFF'}:{color:'#444'}]}>S/ {old_sell_rate}</Text>}
                                     </View>
-                                {/* </TouchableOpacity>    */}
                             </View>
                             <View >
-                                {/* <TouchableOpacity onPress={()=>{
-                                    // this.setState({activeDivTab:1})
-                                }}>  */}
                                     <View style={[this.state.dataCurrency.type==2?[styles.activeTabDivisSeg]:[styles.inActiveTabDivisSeg],{borderTopRightRadius:10,borderBottomRightRadius:10}]}>
                                         <Text style={[{fontSize:16},this.state.dataCurrency.type==2?{fontWeight:'bold',color:'#FFF'}:{color:'#444'}]}>Divisapp Compra</Text>    
                                         <Text style={[this.state.dataCurrency.type==2?{fontSize:17,fontWeight:'bold',color:'#FFF'}:{fontSize:17,color:'#444'}]}>S/ {buy_rate}</Text>
                                         {old_buy_rate!=null && <Text style={[{textDecorationLine: 'line-through'},this.state.dataCurrency.type==2?{fontWeight:'bold',color:'#FFF'}:{color:'#444'}]}>S/ {old_buy_rate}</Text>}
 
                                     </View>
-                                {/* </TouchableOpacity> */}
                             </View>    
                         </View>
                         
@@ -398,17 +375,11 @@ class HomeScreen extends Component {
                                             />
                                             <View style={{width:'77%'}}>
                                                 <Text style={{textAlign:'center',color:'#444',marginLeft:-30, width:230, fontSize:17,fontWeight:'bold' }}>RECIBES  {this.state.dataCurrency.type==1?'DOLARES (USD)':'SOLES (PEN)'}</Text>
-                                                {/* <Text style={{fontWeight:'bold',fontSize:20,textAlign:'right',color:'#444'}}>{this.state.changeCurrency?'10,800.00':'2100.00'}</Text> */}
-
                                                 <TextInput
-                                                    // value={!this.state.changeCurrency?this.state.currency1:this.state.currency2}
                                                     defaultValue={this.state.dataCurrency.rec_value}
                                                     value={this.state.dataCurrency.rec_value}
                                                     style={{padding:4,color:'#444',fontWeight:'bold',fontSize:19,textAlign:'right'}}
-                                                    // placeholder={''}
                                                     keyboardType="number-pad"
-                                                    // placeholderStyle={{color:'#444',fontWeight:'bold'}}
-                                                    // placeholderTextColor={'#444'}
                                                     onChangeText={text => {
                                                         this.state.dataCurrency.rec_value = text;
                                                         this.state.dataCurrency.rec_enable = 1;
@@ -416,12 +387,9 @@ class HomeScreen extends Component {
                                                         this.setState({
                                                             dataCurrency:this.state.dataCurrency
                                                         })
-                                                        
                                                         setTimeout(()=>{
                                                             this.setState({isLoadingCurrency:true});
                                                         },500);
-                                                       
-
                                                         clearTimeout(this.state.currencyChangeTimeout);
                                                         this.updateCurrency(3000);
                                                     }}
@@ -432,23 +400,16 @@ class HomeScreen extends Component {
 
                                     <View style={[styles.currency1]}>
                                         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                                            {/* <Image source={require('../../assets/images/icon/pen.png')}
-                                                    style={{ height: 35.0, width: 31.0,marginLeft:-30,marginTop:10 }}
-                                            /> */}
+                                     
                                              <Image source={this.state.dataCurrency.type==2?require('../../assets/images/icon/usd.png'):require('../../assets/images/icon/pen.png')}
                                                     style={{ height: 35.0, width: 31.0,marginLeft:-30,marginTop:10 }}
                                             />
                                             <View style={{width:'75%'}}> 
-                                                {/* <Text style={{textAlign:'center',color:'#444',marginLeft:-30, width:230, fontSize:17,fontWeight:'bold' }}>{this.state.dataCurrency.type==1?'RECIBES DOLARES (USD)':'ENVIAS SOLES (PEN)'}</Text> */}
-                                                <Text style={{textAlign:'center',color:'#444',marginLeft:-30, width:230, fontSize:17,fontWeight:'bold' }}>ENVIAS {this.state.dataCurrency.type==2?'DOLARES (USD)':'SOLES (PEN)'}</Text>
-                                                {/* <Text style={{fontWeight:'bold',color:'#444',fontSize:20,textAlign:'right'}}>{!this.state.changeCurrency?'10,800.00':'2100.00'}</Text> */}
-                                                
+                                                <Text style={{textAlign:'center',color:'#444',marginLeft:-30, width:230, fontSize:17,fontWeight:'bold' }}>ENVIAS {this.state.dataCurrency.type==2?'DOLARES (USD)':'SOLES (PEN)'}</Text>                                                
                                                 <TextInput
-                                                    // value={this.state.changeCurrency?this.state.dataCurrency.rec_value:this.state.currency2}
                                                     value={this.state.dataCurrency.send_value}
                                                     style={{padding:4,color:'#444',fontWeight:'bold',fontSize:19,textAlign:'right'}}
-                                                    // placeholder={'2100'}
-                                                    // placeholder={''}
+                                                   
                                                     keyboardType="number-pad"
                                                     placeholderStyle={{color:'#444',fontWeight:'bold'}}
                                                     placeholderTextColor={'#444'}
@@ -476,37 +437,14 @@ class HomeScreen extends Component {
                                 <View style={{marginTop:0}}>
                                 <TouchableOpacity disabled={this.state.isLoadingCurrency?true:false} onPress={()=>{
                                                 this.setState({changeCurrency:!this.state.changeCurrency,isLoadingCurrency:true});
-                                                
                                                 this.state.dataCurrency.type = this.state.dataCurrency.type==1?2:1; 
-                                                
-                                                // if(this.state.dataCurrency.rec_enable == 1){
-                                                //     this.state.dataCurrency.send_enable = 1;
-                                                //     this.state.dataCurrency.rec_enable = 0;
-                                                //     this.state.dataCurrency.send_value = JSON.parse(JSON.stringify(this.state.dataCurrency.rec_value));
-                                                //     this.state.dataCurrency.rec_value = 0; 
-                                                //     this.state.dataCurrency.type = 2;
-                                                    
-                                                // }
-                                                // else{
-                                                    
-                                                //     this.state.dataCurrency.send_enable = 0;
-                                                //     this.state.dataCurrency.rec_enable = 1;
-                                                //     this.state.dataCurrency.rec_value = JSON.parse(JSON.stringify(this.state.dataCurrency.send_value));
-                                                //     this.state.dataCurrency.send_value = 0;
-                                                    
-                                                //     this.state.dataCurrency.type = 1;
-                                                // }
                                                 this.setState({dataCurrency:this.state.dataCurrency})
-
                                                 this.animate();
                                                 this.updateCurrency(1000);
                                             }}>      
                                     <Animated.Image
                                         source={require('../../assets/images/icon/dollar4.png')}
                                         style={[this.rotateYAnimatedStyle, {width:80,height:80}]}>
-                                    
-                                
-                                        
                                     </Animated.Image>
                                 </TouchableOpacity>    
                                     
@@ -523,22 +461,17 @@ class HomeScreen extends Component {
                                             placeholderStyle={{color:'#444'}}
                                             placeholderTextColor={'#444'}
                                             onChangeText={text => {
-                                                
                                                 this.state.dataCurrency.code = text;
-
                                                 this.setState({
                                                     code:this.state.dataCurrency
                                                 })
-                                                
                                                 clearTimeout(this.state.currencyChangeTimeout);
-                                                
                                             }}
                                         />
                                     </View>
                                     
                                     <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',  width:'35%', borderWidth:1,borderColor:'#444',borderStyle: 'dotted' , backgroundColor: this.state.bgColor,borderTopRightRadius:10,borderBottomRightRadius:10 }}>
                                         <TouchableOpacity 
-                                           
                                             onPress={()=>{
                                                 this.setState({ bgColor: Color.theme,isLoadingCode:true,currentDate:new Date()})
 
@@ -580,8 +513,6 @@ class HomeScreen extends Component {
                         <View style={[styles.registerOperation]}>                       
                             <TouchableOpacity 
                                 onPress={()=>{
-                                    // this.setState({isVisible:true})
-
                                     this.state.dataCurrency.data = 'quote_request';
                                     this.setState({
                                         dataCurrency:this.state.dataCurrency,
@@ -605,7 +536,6 @@ class HomeScreen extends Component {
                                 data={this.state.MyStatics}
                                 renderItem={this.renderItem}
                                 keyExtractor={(item) => item.id}
-                                // showsVerticalScrollIndicator={false}
                                 showsHorizontalScrollIndicator={false}
                                 horizontal={true}
                                 contentContainerStyle={{ paddingBottom: Sizes.fixPadding * 7.0 }}
@@ -616,96 +546,11 @@ class HomeScreen extends Component {
                     
                 </View>   
                 </ScrollView> 
+                
             </SafeAreaView>
         )
     }
 
 }
-
-
-
-const styles = StyleSheet.create({
-    popularCurrenciesContainerStyle: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: 'white', elevation: 2.0,
-        borderRadius: Sizes.fixPadding * 2.0,
-        alignItems: 'center',
-        paddingHorizontal: Sizes.fixPadding,
-        paddingVertical: Sizes.fixPadding,
-        shadowColor: 'black',
-        shadowOpacity: 0.1,
-        shadowOffset: { width: 0, height: 1},
-        shadowRadius: 9,
-        elevation: 3,
-    },
-    segmentTabs:{
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    activeTabSeg:{
-        backgroundColor:Color.theme,
-        padding:14,
-        paddingHorizontal:35,
-        borderWidth:0.2,
-        borderColor:'#444'
-    },
-    inActiveTagSeg:{
-        backgroundColor:Color.bgColor,
-        padding:14,
-        paddingHorizontal:35,
-        borderWidth:0.2,
-        borderColor:'#444',
-    },
-
-    activeTabDivisSeg:{
-        backgroundColor:Color.theme,
-        padding:9,
-        paddingHorizontal:26,
-        borderWidth:0.2,
-        borderColor:'#999'
-    },
-    inActiveTabDivisSeg:{
-        backgroundColor:'#efefef',
-        padding:9,
-        paddingHorizontal:26,
-        borderWidth:0.1,
-        borderColor:'#999'
-        // borderWidth:0.2,
-        // borderColor:'#444',
-    },
-    currency1:{
-        backgroundColor:'#FFF',
-        padding:11,
-        paddingHorizontal:45,
-        // borderWidth:0.1,
-        // borderColor:'#999',
-        borderRadius:16,
-        marginVertical:5,
-        shadowColor: 'black',
-        shadowOpacity: 0.1,
-        shadowOffset: { width: 0, height: 1},
-        shadowRadius: 9,
-        elevation: 3,
-        backgroundColor: 'white'
-        // borderRightWidth:1,
-        // borderColor:'#444'
-    },
-
-    registerOperation:{
-        backgroundColor:Color.theme,
-        borderRadius:8,
-        marginHorizontal:30, 
-        padding:14,
-        marginVertical:5,
-        marginBottom:30
-    },
-
-    loading:{
-        zIndex:1000,
-        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'
-    }
-})
 
 export default withNavigation(HomeScreen);

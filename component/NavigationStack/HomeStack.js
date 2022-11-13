@@ -7,13 +7,17 @@ import CreditCard from '../../screens/accounts/CreditCard';
 import ChangePassword from '../../screens/ChangePassword/ChangePassword';
 import ExchangeRate from '../../screens/ExchangeRate/ExchangeRate';
 import FaqPage from '../../screens/FAQ/faq';
-import Profile from '../../screens/profile/Profile';
 import TermsPage from '../../screens/profile/TermsPage';
 import WebPage from '../../screens/web/WebPage';
+import HomeScreen from '../../screens/home/homeScreen';
+
+import React,{ useEffect, useState } from 'react';
+import Operations from '../../screens/operations/Operations';
 
 const HomeStack = createNativeStackNavigator();
 
 const  HomeStacks = () =>{
+
     return (
       <HomeStack.Navigator>
           <HomeStack.Screen name="HomeS" component={ HomeScreen } 

@@ -41,6 +41,7 @@ import { NavigationContainer , createNavigationContainerRef} from '@react-naviga
 
 // const navigationRef = createNavigationContainerRef();
 // export const navigationRef = createNavigationContainerRef()
+import crashlytics from '@react-native-firebase/crashlytics';
 
 
 const Logo = () => {
@@ -237,7 +238,10 @@ const Signin2 =(props) =>{
     }
 
     async function loggedin(type,data){
-        
+        // crashlytics().crash();
+
+        // return;
+
         if(type==2 && !isSelected){
             showToastLong('Por favor, acepte los términos y condiciones');
             return;   
@@ -299,7 +303,7 @@ const Signin2 =(props) =>{
             setLoading(false);
             props.navigation.reset({
                 index: 0,
-                routes: [{ name: 'Tabs' }]
+                routes: [{ name: ' ' }]
             })
         },1800);
     }

@@ -8,6 +8,7 @@ import ExchangeRate from '../../screens/ExchangeRate/ExchangeRate';
 import FaqPage from '../../screens/FAQ/faq';
 import TermsPage from '../../screens/profile/TermsPage';
 import WebPage from '../../screens/web/WebPage';
+import React from 'react';
 
 const WebPageStack = createNativeStackNavigator();
 
