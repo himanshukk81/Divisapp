@@ -7,7 +7,7 @@ import { OutlinedTextField } from 'rn-material-ui-textfield'
 
 export default class InputBox extends React.Component {
     async componentDidMount() {
-     
+        console.log("did mount::::::",this.props.inputType)
     }
 
 

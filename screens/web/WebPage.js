@@ -49,10 +49,10 @@ const WebPage =(props,{navigation}) =>{
                 
                 </TouchableOpacity>
             </View>
-            {isLoading &&
-                <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
-                    <ActivityIndicator size="large" color={Color.theme}  />
-                </View>}
+                {isLoading &&
+                    <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
+                        <ActivityIndicator size="large" color={Color.theme}  />
+                    </View>}
                 
             
                 <WebView source={{ uri:webUrl!=''?webUrl:'https://chatting.page/divisappperu' }} 

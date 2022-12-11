@@ -1,5 +1,6 @@
+
 import React,{ useEffect, useState } from 'react';
-import {View, useWindowDimensions,StyleSheet,Platform,FlatList,Text,Image, TouchableOpacity,Alert, ImageBackground} from 'react-native';
+import {View, useWindowDimensions,StyleSheet,Platform,FlatList,Text,Image, TouchableOpacity,Alert, ImageBackground, Clipboard} from 'react-native';
 import { NavigationContainer , createNavigationContainerRef} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -39,6 +40,12 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import Color from "./utility/Color";
 
+import crashlytics from '@react-native-firebase/crashlytics';
+import messaging from '@react-native-firebase/messaging';
+import firebase from '@react-native-firebase/app';
+import firebaseConfig from './utility/FirebaseConfig';
+import { updateToken } from './services/Api';
+
 // import store from './app/store';
 
 const Drawer = createDrawerNavigator();
@@ -58,6 +65,7 @@ const Tab = createBottomTabNavigator();
 
 export const navigationRef = createNavigationContainerRef()
 
+let userInfoData;
 const leftItems = [
 
   {
@@ -181,7 +189,13 @@ const leftItems = [
 
 
 const App =  ({props}) => {
-
+    let app;
+    if (firebase.apps.length === 0) {
+        app = firebase.initializeApp(firebaseConfig)
+    } else {
+        app = firebase.app()
+    }
+    
     var propsDrawer;
     var activeIndex = 0;
     const [splash, setSplash] = useState(true);
@@ -194,9 +208,41 @@ const App =  ({props}) => {
 
     const [refreshTime , setRefresh] = useState(new Date());
 
-    useEffect(()=>{
+    useEffect( async () => {
       fetchData();
-    },[]);
+      crashlytics().log('App mounted.');   
+      if(app){
+        const fcmToken = await messaging().getToken();
+        // if (fcmToken) {
+        //     Clipboard.setString(fcmToken)
+        // } 
+
+        updateUserToken(fcmToken);
+        messaging().setAutoInitEnabled(true);
+        const unsubscribe = messaging().onMessage(async remoteMessage => {
+          Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+        });
+        messaging().setBackgroundMessageHandler(async remoteMessage => {
+          console.log('Message handled in the background!', remoteMessage);
+        });
+        return unsubscribe;
+      }
+    }, []);
+
+    const updateUserToken = (token) =>{
+
+      let platform = Platform.OS;
+      let params = {
+        'device_token':token,
+        'device_type':platform
+      }
+      updateToken(params).then((data)=>{
+        console.log("token updated");
+        console.log({data:data});
+      }).catch((error)=>{
+        console.log({error:error});
+      })
+    }    
 
     const renderSubmenu = ({ item},navigation) => {
       return(
@@ -265,6 +311,20 @@ const App =  ({props}) => {
       )
       
     };
+
+    const renderAlerts = ({item,index}) =>{
+      return(
+        <View style={{marginLeft:10,marginBottom:5 }}>
+          <TouchableOpacity onPress={()=>{
+            // navigationRef.navigate('Web')
+            _menu.close();
+            propsDrawer.navigation.navigate('Web',{'path':item?.alert_link})
+          }}>
+            <Text style={{color:'#444'}}>{item?.alert_text}</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
     
     const confirmationAlert = (props) =>{
       Alert.alert(
@@ -355,13 +415,31 @@ const App =  ({props}) => {
     
                     }}>
                      <View style={styles.menuProfile}>     
-                      <Text style={{color:'#444'}}>Mensajes</Text>
-                      <Image source={require('./assets/images/icon/notification.png')}
-                              style={styles.imageIcon}
-                              resizeMode="contain"
-                        />
+                        
+                            <Text style={{color:'#444'}}>
+                                <Text style={{marginTop:10}}> Mensajes </Text>
+                                <View style={{backgroundColor:'yellow'}}>
+                                  <Text style={{color:'black',padding:3 }}>{userInfoData?.user_user_alerts.length}</Text>
+                                </View>
+                            </Text>
+                            <Image source={require('./assets/images/icon/notification.png')}
+                                    style={styles.imageIcon}
+                                    resizeMode="contain"
+                            />
+
+                            {/* <View style={{backgroundColor:'yellow',padding:8}}>
+                                  <Text style={{color:'black'}}>{userInfoData?.user_user_alerts.length}</Text>
+                            </View> */}
                      </View>
-                  </MenuOption>   
+                  </MenuOption> 
+                  <MenuOption onSelect={() => {}}>
+                        <FlatList
+                            data={userInfoData?.user_user_alerts}
+                            renderItem={renderAlerts}
+                            props={props}
+                            keyExtractor={item => item.id}
+                        />
+                  </MenuOption>  
                   
                   </MenuOptions>
     
@@ -378,7 +456,8 @@ const App =  ({props}) => {
 
         
         console.log({userParsellll:userParse});
-
+        userInfoData = userParse;
+        console.log("ddd,,ll",userInfoData?.google_id)
         setUserInfo(userParse);
         setTimeout(()=>{
           console.log({userParseljjjj:userParse});
@@ -595,6 +674,7 @@ const App =  ({props}) => {
                                 headerBackVisible:true
                             }}
                          >
+                           
                         {(userInfo && userInfo?.id) ? (
                         <>
 
@@ -1066,4 +1146,4 @@ const styles = StyleSheet.create({
     imageIcon:{
       height: 19, width: 19,tintColor:'red'
     }
-  });
+});
