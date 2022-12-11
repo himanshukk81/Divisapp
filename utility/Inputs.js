@@ -88,7 +88,7 @@ export default Inputs = [
         'required':true,
         'type':'input',
         'id':7,
-        'inputType':'text',
+        'inputType':'name-phone-pad',
         'erroMessage':'',
     },
     {
@@ -100,7 +100,7 @@ export default Inputs = [
         'required':false,
         'type':'input',
         'id':8,
-        'inputType':'text',
+        'inputType':'name-phone-pad',
         'erroMessage':'',
     },
     {
@@ -112,7 +112,7 @@ export default Inputs = [
         'required':true,
         'type':'input',
         'id':9,
-        'inputType':'text',
+        'inputType':'name-phone-pad',
         'erroMessage':'',
     },
     {
@@ -124,7 +124,7 @@ export default Inputs = [
         'required':false,
         'type':'input',
         'id':10,
-        'inputType':'text',
+        'inputType':'name-phone-pad',
         'erroMessage':'',
     },
     {
@@ -147,7 +147,7 @@ export default Inputs = [
         'required':true,
         'type':'input',
         'id':12,
-        'inputType':'text',
+        'inputType':'name-phone-pad',
         'erroMessage':'',
     },
     {
@@ -184,7 +184,7 @@ export default Inputs = [
         'type':'input',
         'id':15,
         'erroMessage':'',
-        'inputType':'any',
+        'inputType':'name-phone-pad',
     },
     {
         'name':'Distrito',
@@ -196,7 +196,7 @@ export default Inputs = [
         'type':'input',
         'id':16,
         'erroMessage':'',
-        'inputType':'any',
+        'inputType':'name-phone-pad',
     },
     {
         'name':'Provincia',
@@ -208,7 +208,7 @@ export default Inputs = [
         'type':'input',
         'id':17,
         'erroMessage':'',
-        'inputType':'any',
+        'inputType':'name-phone-pad',
     },
     {
         'name':'País',
@@ -221,7 +221,7 @@ export default Inputs = [
         'type':'input',
         'id':18,
         'erroMessage':'',
-        'inputType':'any',
+        'inputType':'name-phone-pad',
     },
     {
         'name':'DATOS OPCIONALES',
@@ -239,7 +239,7 @@ export default Inputs = [
         'type':'input',
         'id':20,
         'erroMessage':'',
-        'inputType':'any',
+        'inputType':'name-phone-pad',
     },
     {
         'name':'Teléfono de Trabajo',
@@ -251,7 +251,7 @@ export default Inputs = [
         'type':'input',
         'id':21,
         'erroMessage':'',
-        'inputType':'any',
+        'inputType':'name-phone-pad',
     },
     {
         'name':'Ocupación',
@@ -264,7 +264,7 @@ export default Inputs = [
         'type':'input',
         'id':22,
         'erroMessage':'',
-        'inputType':'any',
+        'inputType':'name-phone-pad',
     },
     {
         'name':'Puesto',
@@ -276,7 +276,7 @@ export default Inputs = [
         'type':'input',
         'id':23,
         'erroMessage':'',
-        'inputType':'any',
+        'inputType':'name-phone-pad',
     },
 
 ]

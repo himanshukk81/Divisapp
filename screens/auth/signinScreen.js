@@ -238,6 +238,7 @@ const Signin2 =(props) =>{
 
     async function loggedin(type,data){
         
+
         if(type==2 && !isSelected){
             showToastLong('Por favor, acepte los términos y condiciones');
             return;   
@@ -299,7 +300,7 @@ const Signin2 =(props) =>{
             setLoading(false);
             props.navigation.reset({
                 index: 0,
-                routes: [{ name: 'Tabs' }]
+                routes: [{ name: ' ' }]
             })
         },1800);
     }

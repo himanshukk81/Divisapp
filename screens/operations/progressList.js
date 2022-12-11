@@ -45,9 +45,9 @@ const ProgressList =(props) =>{
         // {id:1,name:'Seleccionar todos'},
         // {id:2,name:'Deseleccionar'},
         // {id:3,name:'Copiar'},
-        {id:4,name:'CSV'},
+        // {id:4,name:'CSV'},
         {id:5,name:'Excel'},
-        {id:6,name:'PDF'},
+        // {id:6,name:'PDF'},
         // {id:7,name:'Imprimir'}
     ];
 
@@ -72,10 +72,10 @@ const ProgressList =(props) =>{
         setLoading(false);
     }
     const renderSelect = (item) => {
-        if(item.label){
+        if(item?.label){
             return (
                 <View style={styles.item}>
-                  <Text style={styles.textItem}>{item.label}</Text>
+                  <Text style={styles.textItem}>{item?.label}</Text>
                 </View>
               )
         }
@@ -180,11 +180,8 @@ const ProgressList =(props) =>{
 
      RenderBtn = (item) =>{
 
-         console.log("btttt");
-         console.log( typeof item);
-         console.log(item.item.name);
         return (
-            <View style={{flexDirection:'row',alignItems:'center',padding:3}}>
+            <View style={{flexDirection:'row',alignItems:'center', padding:3}}>
                 
                 <TouchableOpacity 
                     style={[styles.btnBorder]}  
@@ -193,9 +190,9 @@ const ProgressList =(props) =>{
                     onPress={()=>{
                                     console.log('aa');
 
-                                    downloadOperations(item.item.name);
+                                    downloadOperations(item?.item?.name);
                     }}>
-                    <Text style={styles.btnText}>{item.item.name}</Text>
+                    <Text style={styles.btnText}>{item?.item?.name}</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -231,7 +228,7 @@ const ProgressList =(props) =>{
             </View>
             
             
-            <View>
+            <View style={{}}>
                 <FlatList
                         data={Buttons}
                         renderItem={(data)=>{
@@ -239,7 +236,7 @@ const ProgressList =(props) =>{
 
                         }}
                         numColumns={2}
-                        keyExtractor={(item) => `${item.id}`}
+                        keyExtractor={(item) => `${item?.id}`}
                         showsVerticalScrollIndicator={false}
                         
                         
@@ -254,7 +251,7 @@ const ProgressList =(props) =>{
             </View>
             
             
-            <View style={{flexDirection:'row' ,alignItems:'center' ,paddingHorizontal:50 ,marginVertical:15}}>
+            {/* <View style={{flexDirection:'row' ,alignItems:'center' ,paddingHorizontal:50 ,marginVertical:15}}>
                 <Text style={{color:'#000'}}>Buscar:{' '}</Text>
                 <TextInput
                             style={{
@@ -279,7 +276,7 @@ const ProgressList =(props) =>{
                             // maxLength={30}
 
                 /> 
-            </View>
+            </View> */}
             <ScrollView horizontal>
 
              <DataTable>
@@ -321,7 +318,7 @@ const ProgressList =(props) =>{
                                             <Text style={{color:'black'}}>{item?.type==1?'Venta':'Compra'}</Text> 
                                         </View>
                                         <View style={{flexDirection:'row'}}>
-                                            <Text style={{color:'black'}}>TC:{(item?.rate).toFixed(4)}</Text>
+                                            {item?.rate && <Text style={{color:'black'}}>TC:{(item?.rate).toFixed(4)}</Text>}
                                         </View>
                                     </View> 
 
@@ -335,11 +332,11 @@ const ProgressList =(props) =>{
                                     </View>    
 
                                     <View style={{width:120}}>
-                                        <Text style={{fontSize:15,color:'black'}}>{moment(item.created_at).format("DD MMMM YYYY")}</Text>
+                                        {item?.created_at && <Text style={{fontSize:15,color:'black'}}>{moment(item?.created_at).format("DD MMMM YYYY")}</Text>}
                                         <View style={{flexDirection:'row'}}>
                                             <Image source={require('../../assets/images/icon/clock.png')}
                                                 style={{ height: 15.0, width: 15.0}} />
-                                            <Text style={{fontSize:15,color:'black'}}>{moment(item.created_at).format("HH:mm")}</Text>
+                                            {item?.created_at && <Text style={{fontSize:15,color:'black'}}>{moment(item?.created_at).format("HH:mm")}</Text>}
                                         </View>
                                     </View>    
                                    
@@ -357,7 +354,7 @@ const ProgressList =(props) =>{
                             )
 
                         }}
-                        keyExtractor={(item) => `${item.id}`}
+                        keyExtractor={(item) => `${item?.id}`}
                         showsVerticalScrollIndicator={false}
                         onEndReached={()=>{
                             handleLoadMore()
@@ -469,7 +466,10 @@ const styles = StyleSheet.create({
         // maxWidth:150,
         // width:'50%',
         width:150,
-        marginLeft:20
+        // justifyContent:'center',
+        // flexDirection:'row'
+        marginLeft:'40%'
+        // textAlign:'center'
     },
     btnText:{
         textAlign:'center',
